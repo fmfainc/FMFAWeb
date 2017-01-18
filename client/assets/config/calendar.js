@@ -4,12 +4,21 @@ function popUpSubmit()
         first_name: document.forms["popUpForm"]["first_name"].value,
         last_name: document.forms["popUpForm"]["last_name"].value,
         email: document.forms["popUpForm"]["email"].value,
-        phone: document.forms["popUpForm"]["phone"].value
+        phone: document.forms["popUpForm"]["phone"].value,
+        class_name : class_name,
+        class_start : class_start
       };
   globalScopeRef.formSubmit(data);
 }
 
+function close_popup(){
+  document.getElementById("signUpPopUp").style.visibility = "hidden"
+}
+
 var globalScopeRef;
+
+var class_name;
+var class_start;
 
 
 var app = angular.module("myApp", ["ngRoute"]);
@@ -117,6 +126,8 @@ app.controller("CalendarController",['$scope', 'calendarFactory', function($scop
       popUp.style.visibility = "visible";
       console.log(index);
       console.log(document.getElementById("signUpPopUp"));
+      class_name = $scope.calendarData[index].class_name;
+      class_start = $scope.calendarData[index].date_month + "/" + $scope.calendarData[index].date_day + "/" + $scope.calendarData[index].date_year + "-" + $scope.calendarData[index].date_hour + ":" + $scope.calendarData[index].date_minute + " " + $scope.calendarData[index].am_pm;
     };
 
     calendarFactory.scopeRef = $scope;

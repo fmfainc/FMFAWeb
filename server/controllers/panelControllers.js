@@ -1,7 +1,12 @@
 let panelModel = require('../models/panelModel.js');
 let adminSessionIDs = require("../adminLoginIDs.js");
+let nodemailer = require("../config/emailer.js");
+let fs = require("fs");
+let safeEval = require('safe-eval');
+let crypto = require("crypto");
 
-module.exports = {
+var exps = {
+	email_codes : {},
 	adminpanel: function(req, res){
 		if(adminSessionIDs[req.sessionID] === true)
 			res.sendFile("adminpanel.html", {root: "./"});
@@ -24,8 +29,33 @@ module.exports = {
 	},
 
 	signUp: function(req, res){
-		//email stuff
+	var email_crypto = crypto.randomBytes(48).toString("hex");
+	exps.email_codes[req.body.email] = email_crypto;
+	req.body.email_code = "?email=" +  req.body.email + "&code=" +email_crypto;
+	var content = safeEval("`" + fs.readFileSync(__dirname + "/email_content.html", "utf8") + "`", req.body);
+	console.log(content);
+	var mailOptions = {
+	    from: '"FMFA Class Registration" <noreply.fmfa@gmail.com>', // sender address
+	    to: req.body.email, // list of receivers
+	    subject: "FMFA Class Registration", // Subject line
+	    text: '', // plaintext body
+	    html: content// html body
+	};
+	nodemailer.sendMail(mailOptions, function(error, info){
+	    if(error){
+	        return console.log(error);
+	    }
+	    console.log('Message sent: ' + info.response);
+	});
 		res.json({});
+	},
+	confirmSeating: function(req, res){
+		console.log(req.query, "@@@");
+		if (req.query.code == exps.email_codes[req.query.email]){
+			panelModel.confirmed_code(req, res);
+			console.log("success");
+		}
+		res.redirect("/calendar");
 	},
 
 	getCalendarData: function(req, res){
@@ -111,3 +141,5 @@ module.exports = {
 		panelModel.scheduleClass(req, res);
 	}
 }
+
+module.exports = exps;

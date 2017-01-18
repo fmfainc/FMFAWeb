@@ -178,6 +178,23 @@ removeStudent: function(req, res)
             res.json([]);
         }
     },
+    confirmed_code: function(req, res){
+    let query1 = "SELECT id FROM students WHERE email = " + addQuotes(req.query.email);
+    let query2 = 
+    try
+    {
+        connection.query(query1, function(err, result){
+            console.log(err, result, "pppp");
+
+        });
+    }
+    catch(e)
+    {
+        queryException(e, query);
+        res.json([]);
+        }
+    },
+
     deleteScheduledClass: function(req, res)
     {
         // console.log(req.body, "delete sccheduled class from the BE");

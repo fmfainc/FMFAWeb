@@ -22,6 +22,7 @@ module.exports = function(app){
 	}
 
 	app.get("/calendar_data", panelControllers.getCalendarData);
+	app.get("/confirm_seating", panelControllers.confirmSeating);
 
 	app.get("/adminpanel", panelControllers.adminpanel);
 	app.get("/categories", panelControllers.getCategories);

@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(express.static(path.join(__dirname, '/client')));
 
-console.log(__dirname + '/client');
+// console.log(__dirname + '/client');
 
 app.use(session({
   secret: crypto.randomBytes(48).toString("hex"),
