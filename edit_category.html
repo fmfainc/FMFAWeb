@@ -1,0 +1,20 @@
+<!-- 	<style type="text/css">
+		#main textarea{
+			display: inline-block;
+			vertical-align: top;
+			width: 300px;
+			height: 200px;
+			}
+	</style> -->
+<h2>Editting A Category</h2>
+<form ng-submit = "editCategory(categories[rparam.id].id)" ng-controller="panelController" id="main">
+
+	Name:<textarea class="partial_name_field" ng-model="edit.category_name" ng-bind="categories[rparam.id].category_name"></textarea>
+
+	Category: <textarea ng-model="edit.category_description" ng-bind="categories[rparam.id].category_description"></textarea>
+	<br>
+
+	<input type="submit" name="edit" value="Make Changes">
+</form>
+
+	<input ng-click = "deleteCategory(categories[rparam.id].id)" type="submit" name="delete" value="Delete">

@@ -1,0 +1,70 @@
+<style>
+#student_list * {
+  border: 1px solid grey;
+  border-collapse: collapse;
+  padding: 5px;
+}
+#student_list tr:nth-child(odd) {
+  background-color: #f1f1f1;
+}
+#student_list tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
+</style>
+
+<div id="student_list">
+  <h2>Students List</h2>
+  <table>
+    <tr>
+      <th>Student First Name</th>
+      <th>Student Last Name</th>
+      <th>Email</th>
+      <th>Phone Number</th>
+      <th>Registered Date</th>
+      <th>Waitlist?</th>
+      <th>Submit Changes</th>
+      <th>Remove Student From Class</th>
+    </tr>
+
+    <tr ng-repeat="student in student_list"> 
+
+        <td>
+              {{student.first_name}}
+              <textarea ng-model="edit_student.first_name"></textarea>
+        </td>
+
+        <td>
+            {{student.last_name}}
+            <textarea ng-model="edit_student.last_name"></textarea>
+        </td>
+
+        <td>
+            {{student.email}}
+            <textarea ng-model="edit_student.email"></textarea>
+        </td>
+
+        <td>
+          {{student.phone}}
+            <textarea ng-model="edit_student.phone"></textarea>
+        </td>
+
+        <td>{{student.register_date}}</td>
+
+
+        <td>
+          <input ng-model="edit_student.waitlisted" type="checkbox" value="waitlisted" ng-checked="student_list[$index].waitlisted">Waitlisted
+        </td>
+
+        <td>
+          <button ng-click="editStudent(edit_student, $index)">Submit Change</button>
+        </td>
+
+
+        <td><input ng-click = "delete_student(student)" type="submit.id" value="Delete Student" name="delete_student"></td>
+      </tr>
+
+  </table>
+
+</div>
+

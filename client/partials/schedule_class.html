@@ -1,0 +1,15 @@
+
+	<form class="form2" ng-submit = "scheduleClass()">
+		<h2>Schedule A Class:</h2>
+		<p>Use this form to schedule a class at the location of your choice.</p>
+		
+		Class:<select ng-model="class_description_name_dropdown" ng-options="name for name in display.class_description_names">
+		</select></br>
+		Location:<select ng-model="location_description_dropdown" ng-options="name for name in display.location_names">
+		</select></br>
+		Start Date: <input type="text"><br>
+		End Date: <input type="text"><br>
+		Max students: <input type="text" ng-model="max_students"><br>
+		Min students: <input type="text" ng-model="min_students"><br>
+		<input type="submit" name="submit">
+	</form>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html ng-app = "app">
+<head>
+	<title>admin panel</title>
+
+	<link rel="stylesheet" type="text/css" href="./static/css/style.css">
+
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.min.js"></script>
+
+	<script src="assets/config/routes.js"></script>
+	<script src='assets/factories/panelFactory.js'></script>	    
+	<script src='assets/controllers/panelController.js'></script>  
+	<script src='assets/controllers/studentListController.js'></script>
+
+	<style type="text/css">
+	</style>
+</head>
+<body>
+
+	<div ng-controller = "panelController">
+
+	<div id="forms">
+		<form class="form1" ng-submit = "addCategory()">
+			<h2>New Category:</h2>
+			<p>Use this form to create a category for classes. It will appear in the dropdown menu when you make a new class.</p>
+			<span>Name:</span> <input type="text" ng-model="category_name"><br>
+			<span>Description:</span> <textarea rows="5" cols="20" ng-model="category_description"></textarea><br>
+			<input type="submit" name="submit">
+
+			<p ng-repeat="cat in categories">
+				{{cat.category_name}} <a href="#edit_category/{{$index}}">edit</a>
+			</p>
+
+		</form>
+
+		<form class="form1" ng-submit = "addClassDescription()">
+			<h2>New Class Description:</h2>
+			<p>Use this form to create a new class. You can then schedule instances of this class.</p>
+			<span>Name:</span> <input type="text" ng-model="class_description_name"><br>
+			<span>Description:</span> <textarea rows="5" cols="20" ng-model="class_description_description"></textarea><br>
+
+<!-- 			<span>Category:</span> <select ng-model="class_description_category" ng-options="name for name in display.category_names">
+			</select></br> -->
+
+			<span>Category: </span>
+			<select ng-model="class_description_category">
+				<option ng-repeat="cat in categories" value="{{cat.category_name}}">{{cat.category_name}}</option>
+			</select>
+
+			<input type="submit" name="submit">
+
+			<p ng-repeat="class in class_descriptions">
+				<strong>Class Name: </strong>{{class.class_name}} <strong>Category:</strong>{{class.category_name}} <a href="#edit_class_description/{{$index}}">edit</a>
+			</p>
+		</form>
+
+		
+		<form class="form1" ng-submit = "addLocation()">
+			<h2>New Location:</h2>
+			<p>Use this form to add a new location where classes can be scheduled.</p>
+			<span>Name:</span> <input type="text" ng-model="location_name"><br>
+			<span>Description:</span> <textarea rows="5" cols="20" ng-model="location_description"></textarea><br>
+			<input type="submit" name="submit">
+			<p ng-repeat="loc in locations">
+				{{loc.location_name}} <a href="#edit_location/{{$index}}">edit</a>
+			</p>
+		</form>
+
+
+		<form class="form2" ng-submit = "scheduleClass()">
+			<h2>Schedule A Class:</h2>
+			<p>Use this form to schedule a class at the location of your choice.</p>
+			Class:<select ng-model="class_description_id">
+				<option ng-repeat="class in class_descriptions" value="{{class.id}}">{{class.class_name}}</option>
+			</select>
+
+
+			Location:<select ng-model="pick_location_id">
+				<option ng-repeat="loc in locations" value="{{loc.id}}">{{loc.location_name}}</option>
+			</select></br>
+			Date: <input ng-model="date" type="date"><br>
+			Start Time: <input ng-model="start_time" type="time"><br>
+			End Time: <input ng-model="end_time" type="time"><br>
+			Max students: <input type="number" ng-model="max_students"><br>
+			Min students: <input type="number" ng-model="min_students"><br>
+			<input type="submit" name="submit">
+		</form>
+
+
+		<a href="#edit_scheduled_classes/">Edit Scheduled Classes</a>
+
+	</div>
+	</div>
+	<div id="partials">
+	<div ng-app="app">
+			<div ng-view="">
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

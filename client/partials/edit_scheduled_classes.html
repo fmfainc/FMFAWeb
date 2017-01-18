@@ -1,0 +1,86 @@
+<style>
+table, th , td {
+  border: 1px solid grey;
+  border-collapse: collapse;
+  padding: 5px;
+}
+table tr:nth-child(odd) {
+  background-color: #f1f1f1;
+}
+table tr:nth-child(even) {
+  background-color: #ffffff;
+}
+</style>
+<h2>Editting Scheduled Classes</h2>
+<table>
+  <tr>
+    <th>Class Name</th>
+    <th>Location</th>
+    <th>Start Date</th>
+    <th>Start Time</th>
+    <th>End Time</th>
+    <th>Minimum Number of Students</th>
+    <th>Maximum Number of Students</th>
+    <th>Action</th>
+    <th>Delete Class</th>
+    <th>See Student List</th>
+  </tr>
+  
+  <tr ng-repeat="x in class_instances">
+    
+    <td>
+    <form name="edit_class_name" ng-submit="editScheduledClass(edit_scheduled_class)">{{x.class_name}}
+
+      <select ng-model="edit_scheduled_class.class" ng-options="class.class_name for class in class_descriptions | filter: '!' + x.class_name : true">
+      </select>
+    </form>
+    </td>
+
+
+    <td>{{x.location_name}}
+    <form>
+      <select ng-options="location.location_name for location in locations | filter: '!' + x.location_name : true"  ng-model="edit_scheduled_class.location">
+      </select>
+    </form>
+    </td>
+
+
+    <td>
+      <form>
+    {{x.start_date}} <input type="date" ng-model="edit_scheduled_class.start_date" type="time">
+      </form>
+    </td>
+  
+    <td>
+    <form>
+    {{x.start_date}} <input type="time" ng-model="edit_scheduled_class.start_time" type="time">
+    </form>
+    </td>
+  
+    <td>
+    <form>
+    {{x.end_date}}  <input type="time" ng-model="edit_scheduled_class.end_time">
+    </form>
+    </td>
+  
+  <td> {{x.min_students}}
+    <form>
+        <input type="number" ng-model="edit_scheduled_class.min_students"> 
+    </form>
+  </td>
+  
+    <td>{{x.max_students}}
+      <form >
+        <input type="number" ng-model="edit_scheduled_class.max_students">
+      </form>
+    </td>
+  <td><button ng-click="editScheduledClass(edit_scheduled_class, x.Class_Instances_ID)">Make Changes</button></td>
+
+  <td><input type="submit" name="delete" value="Delete"></td>
+
+
+  <td><a href="#students_list/{{x.Class_Instances_ID}}">Students List</a></td>
+</tr>
+</table>
+
+

@@ -1,0 +1,195 @@
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr" ng-app="myApp">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Come learn the Jira Scrum tracking tool from internationally recognized expert Frederik M. Fowler. Mr. Fowler is one of only about 50 individuals in the United States to have earned the prestigious “Professional Scrum Expert” certification from the creators of Scrum at Scrum.org. Mr. Fowler has more than 30 years of software development experience, is a former Vice President and Chief Information Officer, and has introduced Jira to many organizations. He has trained many Scrum Masters and has guided companies through the transition from traditional methods to successful adoption of the Scrum Framework.">
+        <meta name="keyword" content="scrum, scrum training, jira, jira training, Custom jira training, agile, Fred Fowler">
+        <title>FMFA</title>
+        <link rel="stylesheet" href="static/css/foundation.css">
+        <link rel="stylesheet" href="static/css/app.css">
+        <link rel="stylesheet" href="static/foundation-icons/foundation-icons.css">
+        <link rel="icon" href="static/img/Logo/FMFA_icon.ico"/>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.min.js"></script>
+       	<link rel="stylesheet" href="./static/css/app.css">
+      	<script src="assets/config/calendar.js"></script>
+    </head>
+
+    <body>
+        <!-- The 2 Wrappers that need wrap the whole site -->
+        <div class="off-canvas-wrapper">
+            <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+            <!-- The menu is off to the side and will slide in -->
+            <div class="off-canvas position-left" id="mobile-menu" data-off-canvas>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/calendar">Courses</a></li>
+                    <li><a href="/CustomJiraTraining">Custom Jira Training</a></li>
+                    <li><a href="/JiraTraining">Jira Training</a></li>
+                    <li><a href="/ScrumTraining">Scrum Training</a></li>
+                    <li><a href="/SVPTITraining">SVPTI Training</a></li>
+                    <li><a href="/About">About</a></li>
+                    <li><a href="/Blog">Blog</a></li>
+                    <li><a href="/Contact">Contact</a></li>
+                </ul>
+            </div>
+
+<!-- MOBILE NAVIGATION -->
+        <div class="off-canvas-contant" data-off-canvas-content>
+
+        <div class="title-bar show-for-small-only">
+            <div class="title-bar-left">
+                <img data-open="mobile-menu" src="static/img/Logo/FMFA_withouttag_white.png"/>
+            </div>
+        </div><!-- END OF MOBILE NAVIGATION -->
+
+<!-- DESKTOP NAVIGATION -->
+        <nav class="top-bar nav-desktop">
+            <div class="wrap">
+                <div class="top-bar-left">
+                    <a href="/"><img class="site-logo" src="static/img/Logo/FMFA_withouttag_white.png"/></a>
+                    <div class="top-bar-right">
+                        <ul class="dropdown menu" data-dropdown-menu id="nav">
+                            <li><a href="/">Home</a></li>
+                            <li>
+                                <a href="/calendar">Courses</a>
+                                <ul class="small-menu">
+                                    <li><a href="/CustomJiraTraining">Custom Jira Training</a></li>
+                                    <li><a href="/JiraTraining">Jira Training</a></li>
+                                    <li><a href="/ScrumTraining">Scrum Training</a></li>
+                                    <li><a href="/SVPTITraining">SVPTI Training</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="/About">About</a></li>
+                            <li><a href="/Blog">Blog</a></li>
+                            <li><a href="/Contact">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav><!-- DESKTOP NAVIGATION -->
+
+<!-- MAIN CONTENT -->
+        <section class="main main--JT">
+            <div class="row">
+                <div class="small-12 medium-12 column">
+                    <h1>Courses</h1>
+                    <hr>
+                    <br>
+                    <div ng-view=""></div>
+                    <br><br>
+                </div>
+                <!-- <div class="wrap text center">
+                  <div id="signup" class="small-12 medium-12 column">
+                     <div class="signup-screen">
+                         <h1>Sign Up</h1>
+                         <hr>
+                         <br>
+                          <form class="form-register" method="post" name="register" novalidate>
+               		         <div class="small-6 columns">
+               	             <h4 for="first-name">First Name</h4>  <input id="first-name" type="text" ng-model = "firstname">
+
+               	            </div>
+               	            <div class="small-6 columns">
+               	               <h4 for="last-name">Last Name</h4> <input id="last-name" type="text" ng-model = "lastname">
+               	             </div>
+
+               	             <div class="small-6 columns">
+               	               <h4 for="email">Email</h4> <input id="email" type="email" name="email" ng-model="email">
+               	             </div>
+               	             <div class="small-6 columns">
+               	               <h4 for="phone">Phone Number </h4> <input id="phone" type="text" name="phone" ng-model="phone">
+               	             </div>
+                                <div class ="small-3 columns right">
+               	               <input class="button expanded" type="submit" ng-click="newStudent()">
+                                </div>
+                            </form>
+                          </div>
+                       </div>
+                   </div> -->
+            </div>
+        </section>
+
+
+        <!-- FOOTER -->
+                <footer>
+                    <div class="wrap row small-up-1 medium-up-3">
+                        <div class="column">
+                            <h4>Contact Info</h4>
+                            <hr>
+                            <a href="/Contact"><span><i class="fi-telephone"></i></span> (408) 357 9878</a>
+                            <a href="mailto:ffowler@fmfa.com"><span><i class="fi-mail"></i></span> ffowler@fmfa.com</a>
+                            <a href="https://www.google.com/maps/dir//1250+Oakmead+Pkwy+%23210,+Sunnyvale,+CA+94085/@37.3474807,-121.9581487,13z/data=!4m8!4m7!1m0!1m5!1m1!1s0x808fc9dfc34c96fb:0x37371607d8e70580!2m2!1d-121.9914091!2d37.3864198?hl=en"><span><i class="fi-marker"></i></span> 1250 Oakmead Pkwy, Suite 210,</a>
+                            <br>
+                        </div>
+                        <div class="column">
+                            <h4>Site Map</h4>
+                            <hr>
+                            <a href="/">Home</a>
+                            <a href="/calendar">Courses</a>
+                            <a href="/CustomJiraTraining">Custom Jira Training</a>
+                            <a href="/JiraTraining">Jira Training</a>
+                            <a href="/ScrumTraining">Scrum Training</a>
+                            <a href="/SVPTITraining">SVPTI Training</a>
+                            <a href="/About">About</a>
+                            <a href="/Blog">Blog</a>
+                            <a href="/Contact">Contact</a>
+                            <br>
+                        </div>
+                        <div class="column">
+                            <h4>Social Media</h4>
+                            <hr>
+                            <a href="https://fmfaweb.wordpress.com/">Blog</a>
+                            <a href="#">Facebook</a>
+                            <a href="https://www.linkedin.com/in/fmfainc">Linkedin</a>
+                            <a href="#">Twitter</a>
+
+                        </div>
+                    </div>
+                </footer>
+
+                    </div>
+                </div>
+                </div>
+
+                <script src="static/vendor/jquery.js"></script>
+                <script src="static/vendor/what-input.js"></script>
+                <script src="static/vendor/foundation.js"></script>
+                <script src="static/app.js"></script>
+
+                <div id="signUpPopUp" style="visibility: hidden; width: 40vw; height: 70vh; position: fixed; top: 20vh; left: 30vw; background-color: #222222; box-shadow: 0px 0px 2px 2px #ffffff; overflow: hidden;">
+                	<h2 style="color: #eeeeee; text-align: center;">Sign Up<h2>
+                	<h2 id="popUpClassName" style="color: #eeeeee; text-align: center;"><h2>
+                	<h3 id="popUpClassTime" style="color: #eeeeee; text-align: center;"></h3>
+                	<span style="position: absolute; top: 2%; left: 95%; color: #ffffff;">x</span>
+                	<form name="popUpForm" onsubmit="event.preventDefault(); popUpSubmit();" action="/sign_up" method="post" style="margin: 10%; height: 50%;">
+
+	                	<div style="display: inline-block; width: 50%;" >
+		                <div>
+		                	<label style="display: inline-block; color: #eeeeee; font-size: 100%;">First Name:</label>
+		                	<input style="display: inline-block; width: 20%; margin-left: 1%;" type="text" name="first_name">
+	                	</div>
+		                	<div>
+		                	<label style="display: inline-block; color: #eeeeee; font-size: 100%;">Last Name:</label>
+		                	<input style="display: inline-block; width: 20%; margin-left: 1%;" type="text" name="last_name">
+	                	</div>
+	                	</div>
+	                	<div style="display: inline-block; width: 45%;">
+	                	<div>
+		                	<label style="display: inline-block; color: #eeeeee; font-size: 100%;">Email Address:</label>
+		                	<input style="display: inline-block; width: 20%; margin-left: 1%;" type="text" name="email">
+		                </div>
+		                <div>
+		                	<label style="display: inline-block; color: #eeeeee; font-size: 100%;">Phone Number:</label>
+		                	<input style="display: inline-block; width: 20%; margin-left: 1%;" type="text" name="phone">
+	                	</div>
+	                	</div>
+	                	<br>
+	                	<input class="button" style="margin-left: 40%; width: 20%;" type="submit" name="submit">
+                	</form>
+                </div>
+
+            </body>
+        </html>

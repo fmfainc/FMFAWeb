@@ -1,0 +1,30 @@
+<div ng-controller="signupController">
+ <div class="container">
+   <div id="signup">
+      <div class="signup-screen">
+         <div class="space-bot text-center">
+            <h1>Sign up</h1>
+           <div class="divider"></div>
+         </div>
+           <form class="form-register" method="post" name="register" novalidate>
+		         <div class="input-field col s6">
+	             <label for="first-name">First Name</label>  <input id="first-name" type="text" ng-model = "firstname">
+	              
+	            </div>
+	            <div class="input-field col s6">
+	               <label for="last-name">Last Name</label> <input id="last-name" type="text" ng-model = "lastname">
+	             </div>
+
+	             <div class="input-field col s6">
+	               <label for="email">Email</label> <input id="email" type="email" name="email" ng-model="email"   ng-model = "email"">
+	             </div>
+	             <div class="input-field col s6">
+	               <label for="phone">Phone number </label> <input id="phone" type="phone" name="phone" ng-model="phone" ng-model = "phone">
+	             </div>
+	               <input type="submit" ng-click="newStudent()"></input>
+	              </div>
+             </form>
+           </div>
+        </div>
+    </div>
+</div>

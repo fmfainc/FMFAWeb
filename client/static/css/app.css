@@ -1,0 +1,359 @@
+/*******************************************************************                                 GENERAL
+*******************************************************************/
+* {
+    outline: none;
+}
+
+.wrap {
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/*******************************************************************                              NAVIGATION - MOBILE
+*******************************************************************/
+
+.title-bar {
+    background-color: #222;
+    height: 65px;
+    padding-top: 17px;
+}
+
+.title-bar-left img {
+    width: 18%;
+}
+
+#mobile-menu {
+    background-color: #222;
+    padding: 10px;
+}
+
+#mobile-menu li {
+    list-style: none;
+}
+
+#mobile-menu a {
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: bold;
+    line-height: 2;
+}
+
+#mobile-menu a:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.js-off-canvas-exit {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+/*******************************************************************                              NAVIGATION - DESKTOP
+*******************************************************************/
+.nav-desktop {
+    background-color: #222;
+    height: 85px;
+    padding: 0;
+}
+
+.top-bar {
+    background-color: #222;
+}
+
+.site-logo {
+    color: white;
+    padding-top: 15px;
+}
+
+nav img {
+    width: 12%;
+    height: auto;
+}
+
+.nav-desktop .menu-desktop {
+    line-height: 0px;
+    background-color: transparent;
+    vertical-align: top;
+}
+
+.menu > li > a {
+    padding-top: 35px;
+    padding-bottom: 32px;
+    color: white;
+    vertical-align: top;
+    background-color: #222; transparent;
+    font-weight: bolder;
+
+}
+
+.small-menu a {
+    color: white;
+    font-weight: bolder;
+
+}
+
+.small-menu li {
+    list-style: none;
+    padding-left: 15px;
+    padding-bottom: 10px;
+}
+
+.menu > li > a:hover {
+    /*border-bottom: 3px solid white;*/
+    /*background-color: rgba(255, 255, 255, 0.1);*/
+}
+
+.dropdown.menu > li.is-dropdown-submenu-parent > a::after {
+    display: block;
+    width: 0;
+    height: 0;
+    border: inset 6px;
+    content: '';
+    border-bottom-width: 0;
+    border-top-style: hidden;
+    border-color: white transparent transparent;
+    right: 5px;
+    margin-top: -3px;
+}
+
+.is-dropdown-submenu > li {
+    background-color: #222;
+}
+
+#nav a:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.sticky {
+    width: 100%;
+}
+
+/*******************************************************************                                  HERO
+*******************************************************************/
+/* INDEX PAGE */
+.hero {
+    padding-top: 4%;
+    padding-bottom: 12%;
+    background-repeat: no-repeat;
+    text-shadow: 1px 1px 2px silver;
+}
+
+.hero h1,
+.hero p {
+    color: rgba(255,255,255,0.8);
+    font-weight: 900;
+}
+
+.hero p {
+    font-size: 95%;
+    max-width: 82%;
+}
+
+.hero--index {
+    background-image: url(../img/HeroImg/CityNightTraffic_1.gif);
+}
+
+.hero--page h1,
+.hero--page p {
+    color: rgba(255,255,255,1);
+    text-align: center;
+    font-size-adjust: 380%;
+    padding-top: 12%;
+}
+
+/*******************************************************************                                 MAIN SECTION
+*******************************************************************/
+.logo {
+    max-width: 20pt;
+    min-width: 40%;
+}
+
+.main {
+    padding: 5% 0%;
+}
+
+.main p {
+    font-size: 20px;
+}
+
+.center{
+    margin: auto;
+    width: 61%;
+    text-align: left;
+
+}
+
+/* INDEX */
+.main--index img {
+    margin: auto;
+    width: 90%;
+    text-align: center;
+    padding-bottom: 3%;
+}
+
+.main--index h1 {
+    text-align: center;
+}
+
+.main--JT h3{
+    text-align: center;
+}
+
+.button {
+    margin: auto;
+    text-align: center;
+    max-width: 70%
+}
+
+/* JIRA TRAINING */ /*SCRUM TRAINING */
+#slideDown_p, #slideDown1_p, #slideDown2_p, #slideDown3_p {
+    display: none;
+}
+
+#slideDown_p a, #slideDown1_p a, #slideDown2_p a, #slideDown3_p a {
+    color: blue;
+}
+
+/* ABOUT */
+.badges img {
+    height: 120px;
+    margin: 2%;
+}
+
+.fi-social-linkedin, .fi-social-blogger, .fi-social-youtube, .fi-web {
+    font-size: 50px;
+}
+
+#Fred {
+    margin-right: 3%;
+}
+
+/* CONTACT */
+#map {
+    height: 500px;
+    width: 100%;
+    margin: 5% 0%;
+}
+
+.main--Contact img {
+    padding-bottom: 3%;
+}
+
+/*******************************************************************                                 FOOTER
+*******************************************************************/
+footer {
+    background-color: #222;
+    padding: 80px 0px;
+}
+
+footer h4 {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 20px;
+}
+
+footer hr {
+    border-color: rgba(255, 255, 255, 0.1);
+    /*margin: 1.3em;*/
+}
+
+footer a {
+    display: block;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.8em;
+}
+
+footer a span {
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.3);
+}
+
+footer a:hover {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/*******************************************************************                                 MEDIA QUERY
+*******************************************************************/
+
+@media (max-width: 639px) {
+
+    .nav-desktop {
+        display: none;
+    }
+}
+
+@media (max-width: 875px) {
+    .hero h1,
+    .hero p {
+        width: 100%;
+    }
+}
+
+
+/*******************************************************************                                 CALENDAR
+*******************************************************************/
+
+
+/*******************************************************************                                 SIGNUP
+*******************************************************************/
+
+/*.signup_body {
+  font-family: "Helvetica Neue", Helvetica , sans-serif;
+  color: black;
+  font-color: white;
+  padding-left: 200px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="phone"],
+textarea,
+
+.form-register {
+
+  margin: 4% 31%;
+  outline: 0;
+  margin-top: .2%;
+  padding: 1%;
+  width: 37%;
+  background-color: white;
+  color: black;
+  border-style: solid;
+  border-width: 2px;
+  margin-bottom: 5%;
+  text-align: center;
+}
+
+.sign_up_h1 {
+    background-color: black;
+    color: white;
+    text-align: center;
+    border-width: .5%;
+    border-style: solid;
+    padding: .5% .5%;
+    text-align: center;
+    margin-top: 2%;
+    margin-left: 42%;
+    display: inline-block;
+}
+
+@media screen and (min-width: 480px) {
+
+  form {
+    max-width: 32%;
+  }
+
+}*/
+
+/*******************************************************************                              Student list
+*******************************************************************/
+
+#student_list * {
+  border: 1px solid grey;
+  border-collapse: collapse;
+  padding: 5px;
+}
+#student_list tr:nth-child(odd) {
+  background-color: #f1f1f1;
+}
+#student_list tr:nth-child(even) {
+  background-color: #ffffff;
+}
