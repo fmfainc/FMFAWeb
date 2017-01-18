@@ -49,6 +49,9 @@ app.factory("calendarFactory",["$http", function($http){
         if(instance.date_hour >= 12)
         {
           instance.date_hour %= 12;
+          if (instance.date_hour === 0){
+            instance.date_hour = 12;
+          }
           instance.am_pm = "pm";
         }
         if(instance.date_minute < 10)

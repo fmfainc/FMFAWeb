@@ -31,7 +31,7 @@ table tr:nth-child(even) {
     <td>
     <form name="edit_class_name" ng-submit="editScheduledClass(edit_scheduled_class)">{{x.class_name}}
 
-      <select ng-model="edit_scheduled_class.class" ng-options="class.class_name for class in class_descriptions | filter: '!' + x.class_name : true">
+      <select ng-model="edit_scheduled_class.class" ng-options="class.class_name for class in class_descriptions">
       </select>
     </form>
     </td>
@@ -39,7 +39,7 @@ table tr:nth-child(even) {
 
     <td>{{x.location_name}}
     <form>
-      <select ng-options="location.location_name for location in locations | filter: '!' + x.location_name : true"  ng-model="edit_scheduled_class.location">
+      <select ng-options="location.location_name for location in locations" ng-model="edit_scheduled_class.location">
       </select>
     </form>
     </td>
@@ -53,7 +53,7 @@ table tr:nth-child(even) {
   
     <td>
     <form>
-    {{x.start_date}} <input type="time" ng-model="edit_scheduled_class.start_time" type="time">
+    {{x.start_time}} <input type="time" ng-model="edit_scheduled_class.start_time" type="time">
     </form>
     </td>
   
@@ -76,9 +76,11 @@ table tr:nth-child(even) {
     </td>
   <td><button ng-click="editScheduledClass(edit_scheduled_class, x.Class_Instances_ID)">Make Changes</button></td>
 
-  <td><input type="submit" name="delete" value="Delete"></td>
+  <td><button ng-click="deleteScheduledClass(x.Class_Instances_ID)" name="delete">Delete Class</button></td>
 
 
   <td><a href="#students_list/{{x.Class_Instances_ID}}">Students List</a></td>
 </tr>
 </table>
+<!--  | filter: '!' + x.class_name : true" -->
+<!--  | filter: '!' + x.location_name : true"   -->

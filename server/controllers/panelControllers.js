@@ -49,8 +49,11 @@ module.exports = {
 	deleteClassDescription: function(req, res){
 		panelModel.deleteClassDescription(req, res);
 	},
+	deleteStudent: function(req, res){
+		panelModel.deleteStudent(req, res);
+	},
 
-	deleteScheduledClass: function(req, res){
+	delete_scheduled_class: function(req, res){
 		panelModel.deleteScheduledClass(req,res);
 	},
 	deleteCategory: function(req, res){

@@ -128,6 +128,34 @@ module.exports = {
             res.json([]);
         }
     },
+deleteStudent: function(req, res)
+    {
+        console.log(req.body.id);
+        let query1 = "DELETE FROM classes_has_students where student_id = " + req.body.id;
+        let query2 = "DELETE FROM students where id = " + req.body.id;
+        // console.log(query);
+        try
+        {
+            connection.query(query1, function(err, result){
+                console.log(err, result);
+                if(err)
+                    res.json(err);
+                else
+                    connection.query(query2, function(err, result){
+                        console.log(err, result);
+                        if(err)
+                            res.json(err);
+                        else
+                            res.json(result); //res goes to the frontend directly
+                    });
+            });
+        }
+        catch (e)
+        {
+            queryException(e, query);
+            res.json([]);
+        }
+    },
 
     deleteScheduledClass: function(req, res)
     {
@@ -453,11 +481,10 @@ module.exports = {
         {            
             var insert_query = "SELECT class_instances.id as Class_Instances_ID, class_instances.start_date, class_instances.end_date, class_instances.max_students, class_instances.min_students, class_descriptions.class_name,locations.location_name FROM class_instances INNER JOIN class_descriptions ON class_descriptions.id = class_instances.class_descriptions_id INNER JOIN locations ON class_instances.locations_id = locations.id";
             connection.query(insert_query, function(err, rows, fields){
-                if(err)
+                if(err){
                     res.json(err);
+                }
                 else{
-                    // console.log(forInLoop(rows));
-                    
                     for(let item of rows)
                     {
                         for(let key in item)
@@ -465,12 +492,46 @@ module.exports = {
                             if(key === "start_date" || key === "end_date")
                             {
                                 item[key] = item[key].toString();
+                                if(key == "start_date"){
+                                    item["start_time"] = item[key].slice(15, 21);
+                                        let hour = parseInt(item["start_time"].slice(0, 3));
+                                        if(hour >= 12){
+                                            item["start_time"] += " pm";
+                                            hour %= 12;
+                                            if(hour == 0){
+                                                hour = 12;
+                                            }
+                                            item["start_time"] = hour + item["start_time"].slice(3);
+                                        }
+                                        else{
+                                            item["start_time"] += " am"
+                                        }
+                                    item[key] = item[key].slice(0, 15);
+                                }
+                                else{
+                                    item[key] = item[key].slice(15, 21);
+                                    let hour = parseInt(item[key].slice(0, 3));
+                                    console.log(parseInt(item[key].slice(0,3)));
+                                        if(hour >= 12){
+                                            item[key] += " pm";
+                                            hour %= 12;
+                                            if(hour == 0){
+                                                hour = 12;
+                                            }
+                                            item[key] = hour + item[key].slice(3);
+                                        }
+                                        else
+                                        {
+                                            item[key] += " am"
+                                        }
+                                    }
                             }
                         }
                     }
-                    //has to be last
-                    res.json(rows);
                 }
+                    //has to be last
+                    console.log(rows, "!!!!");
+                    res.json(rows);
             });
         }
         catch (e)

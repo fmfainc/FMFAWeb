@@ -29,6 +29,12 @@ module.exports = function(app){
 	app.get("/adminlogin", function(req, res){
 		panelControllers.adminlogin(req, res);
 	});
+	app.post("/delete_student", function(req, res){
+		panelControllers.deleteStudent(req, res);
+	});
+	app.post("/delete_scheduled_class", function(req, res){
+		panelControllers.delete_scheduled_class(req, res);
+	});
 
 	app.get("/get_students_for_class/:id", function(req, res){
 		panelControllers.getStudentsForClass(req, res);
