@@ -84,6 +84,7 @@ module.exports = function(app){
 	app.post("/edit_class_description", panelControllers.updateClassDescription);
 	app.post("/edit_scheduled_class", panelControllers.updateScheduledClass);
 	app.post("/delete_category", panelControllers.deleteCategory);
+	app.post("/remove_student", panelControllers.remove_student);
 	app.post("/delete_class_description", panelControllers.deleteClassDescription);
 	app.post("/delete_location", panelControllers.deleteLocation);
 	app.post("/categories", panelControllers.addCategory);

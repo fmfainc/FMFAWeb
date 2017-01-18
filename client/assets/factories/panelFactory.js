@@ -74,6 +74,13 @@ app.factory('panelFactory', ["$http", function($http){
 		})
 	};
 
+	factory.remove_student = function(data){
+		$http.post('/remove_student', data).then(function(res){
+		console.log(res);
+		// location.reload();
+		})
+	};
+
 
 	factory.delete_scheduled_class = function(data){
 		$http.post('/delete_scheduled_class', data).then(function(res){

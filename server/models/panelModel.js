@@ -156,7 +156,28 @@ deleteStudent: function(req, res)
             res.json([]);
         }
     },
+removeStudent: function(req, res)
+    {
+        console.log(req.body.id, "!!!!");
+        let query = "DELETE FROM classes_has_students where student_id = " + req.body.id;
+        console.log(query, "!!!");
+        try
+        {
+            connection.query(query, function(err, result){
+                console.log(err, result);
+                if(err)
+                    res.json(err);
+                else
+                    res.json(result); //res goes to the frontend directly
+                });
 
+        }
+        catch (e)
+        {
+            queryException(e, query);
+            res.json([]);
+        }
+    },
     deleteScheduledClass: function(req, res)
     {
         // console.log(req.body, "delete sccheduled class from the BE");
@@ -529,8 +550,6 @@ deleteStudent: function(req, res)
                         }
                     }
                 }
-                    //has to be last
-                    console.log(rows, "!!!!");
                     res.json(rows);
             });
         }

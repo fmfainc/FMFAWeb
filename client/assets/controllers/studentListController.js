@@ -24,5 +24,8 @@ app.controller("studentListController", ["$scope", "$routeParams", "$http", "pan
         $scope.delete_student = function(id){
             panelFactory.delete_student({id:id});
         }
+        $scope.remove_student = function(id){
+            panelFactory.remove_student({id:id});
+        }
 }]);
 
