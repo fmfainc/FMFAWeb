@@ -12,8 +12,26 @@
 	<script src='assets/factories/panelFactory.js'></script>	    
 	<script src='assets/controllers/panelController.js'></script>  
 	<script src='assets/controllers/studentListController.js'></script>
+<!-- to do 
+allign edit pannels -done
+make it so that when fred hits the edit  button the appropiate pannel displays below
+the schedual class could also be next to the panels -->
 
 	<style type="text/css">
+	 
+	.form1{
+		 height: 900px;
+      
+     	vertical-align: middle;
+		width: 56%;
+		height: 100%;
+	}
+	.form2{
+		height: 900px;
+     	vertical-align: middle;
+		width: 70%;
+		height: 100%;
+	}
 	</style>
 </head>
 <body>
@@ -22,8 +40,9 @@
 
 	<div id="forms">
 		<form class="form1" ng-submit = "addCategory()">
+			 
 			<h2>New Category:</h2>
-			<p>Use this form to create a category for classes. It will appear in the dropdown menu when you make a new class.</p>
+				<p>Use this form to create a category for classes. It will appear in the dropdown menu when you make a new class.</p>
 			<span>Name:</span> <input type="text" ng-model="category_name"><br>
 			<span>Description:</span> <textarea rows="5" cols="20" ng-model="category_description"></textarea><br>
 			<input type="submit" name="submit">
@@ -33,7 +52,8 @@
 			</p>
 
 		</form>
-
+		 
+<br>
 		<form class="form1" ng-submit = "addClassDescription()">
 			<h2>New Class Description:</h2>
 			<p>Use this form to create a new class. You can then schedule instances of this class.</p>
@@ -54,8 +74,9 @@
 				<strong>Class Name: </strong>{{class.class_name}} <strong>Category:</strong>{{class.category_name}} <a href="#edit_class_description/{{$index}}">edit</a>
 			</p>
 		</form>
+ 
 
-		
+		<br>
 		<form class="form1" ng-submit = "addLocation()">
 			<h2>New Location:</h2>
 			<p>Use this form to add a new location where classes can be scheduled.</p>
@@ -67,7 +88,7 @@
 			</p>
 		</form>
 
-
+<br>
 		<form class="form2" ng-submit = "scheduleClass()">
 			<h2>Schedule A Class:</h2>
 			<p>Use this form to schedule a class at the location of your choice.</p>
@@ -99,5 +120,3 @@
 		</div>
 	</div>
 </body>
-
-</html>
