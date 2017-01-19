@@ -5,8 +5,9 @@ function popUpSubmit()
         last_name: document.forms["popUpForm"]["last_name"].value,
         email: document.forms["popUpForm"]["email"].value,
         phone: document.forms["popUpForm"]["phone"].value,
-        class_name : class_name,
-        class_start : class_start
+        class_name : global_class_name,
+        class_start : global_class_start,
+        class_instance_id: global_class_instance_id
       };
   globalScopeRef.formSubmit(data);
 }
@@ -17,8 +18,10 @@ function close_popup(){
 
 var globalScopeRef;
 
-var class_name;
-var class_start;
+var global_class_name;
+var global_class_start;
+var global_class_instance_id;
+var global_student_id;
 
 
 var app = angular.module("myApp", ["ngRoute"]);
@@ -126,8 +129,9 @@ app.controller("CalendarController",['$scope', 'calendarFactory', function($scop
       popUp.style.visibility = "visible";
       console.log(index);
       console.log(document.getElementById("signUpPopUp"));
-      class_name = $scope.calendarData[index].class_name;
-      class_start = $scope.calendarData[index].date_month + "/" + $scope.calendarData[index].date_day + "/" + $scope.calendarData[index].date_year + "-" + $scope.calendarData[index].date_hour + ":" + $scope.calendarData[index].date_minute + " " + $scope.calendarData[index].am_pm;
+      global_class_name = $scope.calendarData[index].class_name;
+      global_class_start = $scope.calendarData[index].date_month + "/" + $scope.calendarData[index].date_day + "/" + $scope.calendarData[index].date_year + "-" + $scope.calendarData[index].date_hour + ":" + $scope.calendarData[index].date_minute + " " + $scope.calendarData[index].am_pm;
+      global_class_instance_id = $scope.calendarData[index].class_instance_id;
     };
 
     calendarFactory.scopeRef = $scope;

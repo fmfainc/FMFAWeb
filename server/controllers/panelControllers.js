@@ -29,33 +29,77 @@ var exps = {
 	},
 
 	signUp: function(req, res){
-	var email_crypto = crypto.randomBytes(48).toString("hex");
-	exps.email_codes[req.body.email] = email_crypto;
-	req.body.email_code = "?email=" +  req.body.email + "&code=" +email_crypto;
-	var content = safeEval("`" + fs.readFileSync(__dirname + "/email_content.html", "utf8") + "`", req.body);
-	console.log(content);
-	var mailOptions = {
-	    from: '"FMFA Class Registration" <noreply.fmfa@gmail.com>', // sender address
-	    to: req.body.email, // list of receivers
-	    subject: "FMFA Class Registration", // Subject line
-	    text: '', // plaintext body
-	    html: content// html body
-	};
-	nodemailer.sendMail(mailOptions, function(error, info){
-	    if(error){
-	        return console.log(error);
-	    }
-	    console.log('Message sent: ' + info.response);
-	});
-		res.json({});
+		
+		var pattern = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+		//validations
+		var validationErrors = [];
+		var valid = true;
+		if(!pattern.test(req.body.email)){
+			validationErrors.push("invalid email address");
+			valid = false;
+		}
+		if(req.body.first_name.length < 1){
+			validationErrors.push("first name required");
+			valid = false;
+		}
+		if(req.body.last_name.length < 1){
+			validationErrors.push("last name required");
+			valid = false;
+		}
+		if(req.body.phone.length < 1){
+			validationErrors.push("phone number required");
+			valid = false;
+		}
+
+		if(valid === true){
+		let email_crypto = crypto.randomBytes(48).toString("hex");
+		
+		exps.email_codes[req.body.email] = {signUpData: {
+				email: req.body.email,
+				first_name: req.body.first_name,
+				last_name: req.body.last_name,
+				phone: req.body.phone,
+				class_instance_id: req.body.class_instance_id,
+				code: email_crypto
+			}
+		};
+
+		req.body.email_code = 
+		"?email=" + req.body.email
+		+ "&code=" + email_crypto;
+		
+		var content = safeEval("`" + fs.readFileSync(__dirname + "/email_content.html", "utf8") + "`", req.body);
+		console.log(content);
+		var mailOptions = {
+		    from: '"FMFA Class Registration" <noreply.fmfa@gmail.com>', // sender address
+		    to: req.body.email, // list of receivers
+		    subject: "FMFA Class Registration", // Subject line
+		    text: '', // plaintext body
+		    html: content// html body
+		};
+		nodemailer.sendMail(mailOptions, function(error, info){
+		    if(error){
+		        return console.log(error);
+		    }
+		    console.log('Message sent: ' + info.response);
+			});
+		}
+		else
+		{
+			console.log(validationErrors);
+		}
+		res.json(validationErrors);
 	},
+
 	confirmSeating: function(req, res){
 		console.log(req.query, "@@@");
-		if (req.query.code == exps.email_codes[req.query.email]){
-			panelModel.confirmed_code(req, res);
+		if(req.query.code == exps.email_codes[req.query.email].signUpData.code){
+			panelModel.confirmed_code(req, res, exps.email_codes[req.query.email].signUpData);
 			console.log("success");
 		}
 		res.redirect("/calendar");
+		//make new pages
 	},
 
 	getCalendarData: function(req, res){

@@ -178,14 +178,43 @@ removeStudent: function(req, res)
             res.json([]);
         }
     },
-    confirmed_code: function(req, res){
+    confirmed_code: function(req, res, data){
     let query1 = "SELECT id FROM students WHERE email = " + addQuotes(req.query.email);
-    let query2 = 
     try
     {
-        connection.query(query1, function(err, result){
-            console.log(err, result, "pppp");
+        connection.query(query1, function(err, result1){
+            console.log(data, "%%%");
+            console.log(err, result1, "result1");
+            let query2;
+            let insert = true;
+            if(result1.length === 0 && err === null)
+            {
+                query2 = insertQuery("students", {first_name: data.first_name, last_name: data.last_name, email: data.email, phone: data.phone});
+                console.log(result1[0].insertId, "insert");
+            }
+            else if(err === null)
+            {
+                insert = false;
+                query2 = "UPDATE students set first_name = "
+                + addQuotes(data.first_name)
+                + ", last_name = " + addQuotes(data.last_name)
+                + ", phone = " + addQuotes(data.phone)
+                + " where id=" + result1[0].id;
+                console.log(result1[0].id, "update");
+            }
 
+            connection.query(query2, function(err, result2){
+
+                let insertData = {class_instance_id: data.class_instance_id, student_id: (insert)?result1[0].insertId:result1[0].id, register_date: "now()"};
+                let query3 = `INSERT INTO classes_has_students (class_instance_id, student_id, register_date) VALUES(${insertData.class_instance_id}, ${insertData.student_id}, ${insertData.register_date})`;
+
+                console.log(err, result2, "result2");
+                console.log(query3);
+                connection.query(query3, function(err, result3){
+                    console.log(err, result3, "888");
+        
+                });
+            });
         });
     }
     catch(e)
