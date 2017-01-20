@@ -411,29 +411,25 @@ removeStudent: function(req, res)
 
     updateScheduledClass: function(req, res)
     {
-        console.log(req.body, "444");
-        var startTime = req.body.start_date.slice(0,10);
-        var newStartDateTime = startTime + " " + req.body.start_time.slice(11, 19) ;
+        // console.log(req.body, "444");
+        var startTime = trySlice(req.body.start_date, 0, 10);
+        var newStartDateTime = `${startTime} ${trySlice(req.body.start_time, 11, 19)}`;
         var insertnewStartDateTime = dateTimeAdjustHours(newStartDateTime, -8);
-        var newEndTimeBefore = req.body.end_time.slice(11, 19);
-        var imTiredOfThisShit = startTime + " " + newEndTimeBefore;
+        var newEndTimeBefore = trySlice(req.body.end_time, 11, 19);
+        var imTiredOfThisShit = `${startTime} ${newEndTimeBefore}`;
         var newEndTimeAfter = dateTimeAdjustHours(imTiredOfThisShit, -8);
-        // console.log(newEndTimeAfter);
-        // let query = "UPDATE class_instances SET class_instances.locations_id = " + addQuotes(req.body.location_id) + ", " + "class_instances.class_descriptions_id = " + addQuotes(req.body.class_description_id) + ", " + 
-        // "class_instances.start_date = " + addQuotes(insertnewStartDateTime) + ", " +  "class_instances.end_date = " + addQuotes(newEndTimeAfter) + ", " + "class_instances.min_students = " + addQuotes(req.body.min_students)
-        //  + ", " + "class_instances.max_students = " + addQuotes(req.body.max_students) + " WHERE id=" + req.body.id;
-        var edit_class_instances_location_id = (req.body.location_id != undefined)?`class_instances.locations_id = ${addQuotes(req.body.location_id)}, `:"";
-        var edit_class_instances_description_id = (req.body.class_description_id != undefined)?`class_instances.desription_id = ${addQuotes(req.body.class_description_id)}, `:"";
-        var edit_class_instances_start_date = (insertnewStartDateTime != undefined)?`class_instances.start_date = ${addQuotes(insertnewStartDateTime)}, `:"";
-        var edit_class_instances_end_date = (newEndTimeAfter != undefined)?`class_instances.end_date = ${addQuotes(newEndTimeAfter)}, `:"";
-        var edit_class_instances_min_students = (req.body.min_students != undefined)?`class_instances.min_students = ${addQuotes(req.body.min_students)}, `:"";
-        var edit_class_instances_max_students = (req.body.max_students != undefined)?`class_instances.max_students = ${addQuotes(req.body.max_students)}, `:"";
 
+        var edit_class_instances_location_id = (req.body.location_id != undefined)?`class_instances.locations_id = ${req.body.location_id},`:"";
+        var edit_class_instances_description_id = (req.body.class_description_id != undefined)?`class_instances.class_descriptions_id = ${req.body.class_description_id},`:"";
+        var edit_class_instances_start_date = (req.body.start_date != undefined)?`class_instances.start_date = ${insertnewStartDateTime},`:"";
+        var edit_class_instances_end_date = (req.body.end_time  != undefined)?`class_instances.end_date = ${newEndTimeAfter},`:"";
+        var edit_class_instances_min_students = (req.body.min_students != undefined)?`class_instances.min_students = ${req.body.min_students},`:"";
+        var edit_class_instances_max_students = (req.body.max_students != undefined)?`class_instances.max_students = ${req.body.max_students},`:"";
 
         let query = `UPDATE class_instances SET ${edit_class_instances_location_id} ${edit_class_instances_description_id} ${edit_class_instances_start_date} ${edit_class_instances_end_date} ${edit_class_instances_min_students} ${edit_class_instances_max_students} updated_at = NOW() WHERE id = ${req.body.id}`; 
         
         console.log(query, "666");
-        console.log("555");
+        // console.log("555");
         try
         {
             connection.query(query, function(err, result){
@@ -588,7 +584,7 @@ removeStudent: function(req, res)
                                 else{
                                     item[key] = item[key].slice(15, 21);
                                     let hour = parseInt(item[key].slice(0, 3));
-                                    console.log(parseInt(item[key].slice(0,3)));
+                                    //console.log(parseInt(item[key].slice(0,3)));
                                         if(hour >= 12){
                                             item[key] += " pm";
                                             hour %= 12;
@@ -655,6 +651,14 @@ removeStudent: function(req, res)
 }
 
 // HELPER FUNCTIONS BELOW
+
+function trySlice(str, start, end)
+{
+    if(str !== undefined){
+       return str.slice(start, end);
+    }
+    return undefined;
+}
 
 function addQuotes(strArr)
 {

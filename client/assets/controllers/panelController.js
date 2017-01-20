@@ -24,6 +24,7 @@ app.controller("panelController", ["$scope", "$routeParams", "$http", "panelFact
             console.log("data passed from partial:", obj);
             var class_id = (obj.class)?obj.class.id:undefined;
             var location_id = (obj.location)?obj.location.id:undefined;
+            console.log(index);
             console.log($scope.class_descriptions);
             console.log($scope.locations);
             var data = {
