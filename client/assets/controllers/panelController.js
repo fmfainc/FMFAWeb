@@ -2,22 +2,6 @@ app.controller("panelController", ["$scope", "$routeParams", "$http", "panelFact
     
     if($scope.init === undefined)
     {
-        // $scope.refreshView = (function(){
-        //     let already = false;
-
-        //     return function(){
-        //         //console.log(already);
-        //         if(already === false)
-        //         {
-        //             already = true;
-        //             setTimeout(function(){
-        //                 $scope.$apply();
-        //                 already = false;
-        //             },0.5);
-        //         }
-        //     }
-        // })();
-
         $scope.addCategory = function(){ 
             let data = {category_name: $scope.category_name, category_description: $scope.category_description};
             panelFactory.addCategory(data);
@@ -34,23 +18,27 @@ app.controller("panelController", ["$scope", "$routeParams", "$http", "panelFact
             panelFactory.editClassDescription(toSend);
             console.log(toSend);
         }
-        $scope.editScheduledClass = function(obj, id)
-            {
-                console.log("id:", id);
-                console.log("data passed from partial:", obj);
-                var data = {
-                    id:id,
-                    class_description_id: obj.class.id,
-                    location_id: obj.location.id,
-                    start_date: obj.start_date,
-                    start_time: obj.start_time,
-                    end_time: obj.end_time,
-                    min_students: obj.min_students,
-                    max_students: obj.max_students
-                };
-                console.log("data object to pass to factory:", data);
-                panelFactory.editScheduledClass(data);
-            }
+        $scope.editScheduledClass = function(obj, id, index)
+        {
+            console.log("id:", id);
+            console.log("data passed from partial:", obj);
+            var class_id = (obj.class)?obj.class.id:undefined;
+            var location_id = (obj.location)?obj.location.id:undefined;
+            console.log($scope.class_descriptions);
+            console.log($scope.locations);
+            var data = {
+                id:id,
+                class_description_id: ((class_id)?class_id:$scope.class_descriptions[index].id),
+                location_id: ((location_id)?location_id:$scope.locations[index].id),
+                start_date: obj.start_date,
+                start_time: obj.start_time,
+                end_time: obj.end_time,
+                min_students: obj.min_students,
+                max_students: obj.max_students
+            };
+            console.log("data object to pass to factory:", data);
+            panelFactory.editScheduledClass(data);
+        }
         $scope.addLocation = function(){
             let data = {location_name: $scope.location_name, location_description: $scope.location_description};
             panelFactory.addLocation(data);

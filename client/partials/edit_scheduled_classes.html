@@ -74,7 +74,7 @@ table tr:nth-child(even) {
         <input type="number" ng-model="edit_scheduled_class.max_students">
       </form>
     </td>
-  <td><button ng-click="editScheduledClass(edit_scheduled_class, x.Class_Instances_ID)">Make Changes</button></td>
+  <td><button ng-click="editScheduledClass(edit_scheduled_class, x.Class_Instances_ID, $index)">Make Changes</button></td>
 
   <td><button ng-click="deleteScheduledClass(x.Class_Instances_ID)" name="delete">Delete Class</button></td>
 
