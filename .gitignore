@@ -1,5 +1,5 @@
 /bower_components
 /node_modules
+server/config/mysql.js
 *.bak
 .DS_Store
-.gitignore
