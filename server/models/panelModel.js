@@ -1,15 +1,7 @@
-let mysql = require('mysql');
+
 let bcrypt = require("bcryptjs");
 let crypto = require("crypto");
-let adminSessionIDs = require("../adminLoginIDs.js");
-let connection = mysql.createConnection({
-    port     : 3306,
-    host     : "localhost",
-    user     : "root",
-    password : "root",
-    database : "mydb"
-});
-
+let connection = require("../config/mysql.js");
 
 module.exports = {
     getCalendarData: function(req, res){
@@ -68,6 +60,7 @@ module.exports = {
                 //username: admin, password: fmf4__dev
                 if(err || rows[0] === undefined)
                 {
+                    console.log(err);
                     res.redirect("/adminpanel");
                 }
                 else if(bcrypt.compareSync(req.body.password, rows[0].password))
@@ -195,23 +188,23 @@ removeStudent: function(req, res)
             else if(err === null)
             {
                 insert = false;
-                query2 = "UPDATE students set first_name = "
-                + addQuotes(data.first_name)
-                + ", last_name = " + addQuotes(data.last_name)
-                + ", phone = " + addQuotes(data.phone)
-                + " where id=" + result1[0].id;
+                query2 = `UPDATE students set first_name = ${addQuotes(data.first_name)}, last_name = ${addQuotes(data.last_name)} ${phone} = ${addQuotes(data.phone)} where id= ${result1[0].id}`;
                 console.log(result1[0].id, "update");
             }
 
             connection.query(query2, function(err, result2){
 
-                let insertData = {class_instance_id: data.class_instance_id, student_id: (insert)?result1[0].insertId:result1[0].id, register_date: "now()"};
+                let insertData = {
+                    class_instance_id: data.class_instance_id,
+                    student_id: (insert)?result1[0].insertId:result1[0].id,
+                    register_date: "now()"
+                };
                 let query3 = `INSERT INTO classes_has_students (class_instance_id, student_id, register_date) VALUES(${insertData.class_instance_id}, ${insertData.student_id}, ${insertData.register_date})`;
 
                 console.log(err, result2, "result2");
                 console.log(query3);
                 connection.query(query3, function(err, result3){
-                    console.log(err, result3, "888");
+                console.log(err, result3, "888");
         
                 });
             });
