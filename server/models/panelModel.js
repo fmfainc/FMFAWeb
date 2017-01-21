@@ -292,8 +292,16 @@ removeStudent: function(req, res)
 
     updateCategory: function(req, res)
     {
-        console.log(req.body.id);
-        let query = "UPDATE categories set category_name = " + addQuotes(req.body.category_name) + ", " + "category_description = " + addQuotes(req.body.category_description) + " WHERE id = " + req.body.id;
+        let edit = {category_name: "", category_description: ""};
+        
+        if(req.body.category_name !== undefined)
+            edit.category_name = `category_name = ${addQuotes(req.body.category_name)}, `;
+        if(req.body.category_description !== undefined)
+            edit.category_description = `category_description = ${addQuotes(req.body.category_description)}, `;
+
+        let query = `UPDATE categories set ${edit.category_name} ${edit.category_description} updated_at = now() WHERE id = ${req.body.id}`;
+
+
         console.log(query);
         try
         {
@@ -345,7 +353,16 @@ removeStudent: function(req, res)
 
     updateLocation: function(req, res)
     {
-        let query = "UPDATE locations set location_name = " + addQuotes(req.body.location_name) + ", " + "location_description = " + addQuotes(req.body.location_description) + "WHERE id = " + req.body.id;
+        let edit = {location_name: "", location_description: ""};
+        
+        if(req.body.location_name !== undefined)
+            edit.location_name = `location_name = ${addQuotes(req.body.location_name)}, `;
+        if(req.body.location_description !== undefined)
+            edit.location_description = `location_description = ${addQuotes(req.body.location_description)}, `;
+
+        let query = `UPDATE locations set ${edit.location_name} ${edit.location_description} updated_at = now() WHERE id = ${req.body.id}`;
+
+
         try
         {
             connection.query(query, function(err, result){
@@ -365,8 +382,20 @@ removeStudent: function(req, res)
 
     updateStudent: function(req, res)
     {
+        let edit = {first_name: "", last_name: "", email: "", phone: "", waitlisted: ""};
 
-        let query = "UPDATE students JOIN classes_has_students ON students.id = classes_has_students.student_id set first_name = " + addQuotes(req.body.first_name) + ", " + "last_name = " + addQuotes(req.body.last_name) + ", " + "email = " + addQuotes(req.body.email) + ", " + "phone = " + addQuotes(req.body.phone) + ", " + "classes_has_students.waitlisted = " + req.body.waitlisted + ", " + "classes_has_students.register_date = " + addQuotes(req.body.register_date) + " WHERE classes_has_students.student_id = " + req.body.student_id + " and classes_has_students.class_instance_id = " + req.body.class_instance_id;
+        for(let key in edit)
+        {
+            if(req.body[key] !== undefined)
+            {
+                edit[key] = `${key} = ${addQuotes(req.body[key])}, `;
+            }
+        }
+
+        let query = `UPDATE students JOIN classes_has_students ON students.id = classes_has_students.student_id set ${edit.first_name} ${edit.last_name} ${edit.email} ${edit.phone} ${edit.waitlisted} updated_at = now() WHERE classes_has_students.student_id = ${req.body.student_id} and classes_has_students.class_instance_id = ${req.body.class_instance_id}`;
+
+        console.log(query, "----update student");
+
         try
         {
             connection.query(query, function(err, result){
@@ -388,9 +417,20 @@ removeStudent: function(req, res)
 
     updateClassDescription: function(req, res)
     {
-        console.log(req.body, "EHREHRERERERE");
-        let subQuery = "(SELECT id FROM categories WHERE category_name='"+ req.body.category +"' LIMIT 1)";
-        let query = "UPDATE class_descriptions set class_name = " + addQuotes(req.body.class_name) + ", class_description = " + addQuotes(req.body.class_description) + ", categories_id = " + subQuery + " WHERE id = " + req.body.id;
+        console.log(req.body);
+        let subQuery = "`(SELECT id FROM categories WHERE category_name=${req.body.category} LIMIT 1), `";
+
+        let edit = {class_name: "", class_description: "", categories_id: ""};
+        
+        if(req.body.class_name !== undefined)
+            edit.class_name = `class_name = ${addQuotes(req.body.class_name)}, `;
+        if(req.body.class_description !== undefined)
+            edit.class_description = `class_description = ${addQuotes(req.body.class_description)}, `;
+        if(req.body.category !== undefined)
+            edit.categories_id = `categories_id = (SELECT id FROM categories WHERE category_name=${req.body.category} LIMIT 1), `;
+
+        let query = `UPDATE class_descriptions set ${edit.class_name} ${edit.class_description} ${edit.categories_id} updated_at = now() WHERE id = ${req.body.id}`;
+
         console.log(query);
         try
         {
