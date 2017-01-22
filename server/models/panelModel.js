@@ -186,7 +186,6 @@ removeStudent: function(req, res)
                 if(result1.length === 0 && err === null)
                 {
                     query2 = insertQuery("students", {first_name: data.first_name, last_name: data.last_name, email: data.email, phone: data.phone});
-                    console.log(result2.insertId, "insert");
                 }
                 else if(err === null)
                 {
