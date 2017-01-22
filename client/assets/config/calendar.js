@@ -82,7 +82,8 @@ app.factory("calendarFactory",["$http", function($http){
           console.log(count, "count");
           for(let instance of factory.scopeRef.calendarData)
           {
-            instance.seats = 0 + "/" + instance.max_students;
+            if(!instance.seats){
+              instance.seats = 0 + "/" + instance.max_students;}
             if(instance.class_instance_id === count.class_instance_id)
             {
               console.log("this one", instance);
@@ -99,7 +100,9 @@ app.factory("calendarFactory",["$http", function($http){
           console.log(count);
           for(let instance of factory.scopeRef.calendarData)
           {
-            instance.waitlist = 0;
+
+          if(!instance.waitlist){
+            instance.waitlist = 0;}
             if(instance.class_instance_id === count.class_instance_id){
               console.log("this one", instance);
               instance.waitlist = count["count(*)"] > 0?count["count(*)"]:0 + "";
