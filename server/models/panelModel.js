@@ -186,7 +186,7 @@ removeStudent: function(req, res)
                 if(result1.length === 0 && err === null)
                 {
                     query2 = insertQuery("students", {first_name: data.first_name, last_name: data.last_name, email: data.email, phone: data.phone});
-                    console.log(result1.insertId, "insert");
+                    console.log(result2.insertId, "insert");
                 }
                 else if(err === null)
                 {
@@ -198,9 +198,10 @@ removeStudent: function(req, res)
                 connection.query(query2, function(err, result2){
                     let insertData = {
                         class_instance_id: data.class_instance_id,
-                        student_id: (insert)?result1[0].insertId:result1[0].id,
+                        student_id: (insert)?result2.insertId:result1[0].id,
                         register_date: "now()"
                     };
+                    console.log(result1);
                     let query3 = `INSERT INTO classes_has_students (class_instance_id, student_id, register_date) VALUES(${insertData.class_instance_id}, ${insertData.student_id}, ${insertData.register_date})`;
                     console.log(err, result2, "result2");
                     console.log(query3);
