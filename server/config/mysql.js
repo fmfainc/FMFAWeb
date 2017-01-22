@@ -1,7 +1,6 @@
-var mysql = require('mysql');
-var bcrypt = require("bcryptjs");
-var crypto = require("crypto");
-var connection = mysql.createConnection({
+let mysql = require('mysql');
+let adminSessionIDs = require("../adminLoginIDs.js");
+let connection = mysql.createConnection({
     port     : 3306,
     host     : "localhost",
     user     : "root",

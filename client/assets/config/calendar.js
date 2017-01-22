@@ -79,12 +79,15 @@ app.factory("calendarFactory",["$http", function($http){
         console.log(studentCounts);
         for(let count of studentCounts)
         {
-          console.log(count);
+          console.log(count, "count");
           for(let instance of factory.scopeRef.calendarData)
           {
+            instance.seats = 0 + "/" + instance.max_students;
             if(instance.class_instance_id === count.class_instance_id)
+            {
               console.log("this one", instance);
               instance.seats = count["count(*)"] + "/" + instance.max_students;
+            }
           }
         }
       });
