@@ -99,6 +99,7 @@ app.factory("calendarFactory",["$http", function($http){
           console.log(count);
           for(let instance of factory.scopeRef.calendarData)
           {
+            instance.waitlist = 0;
             if(instance.class_instance_id === count.class_instance_id){
               console.log("this one", instance);
               instance.waitlist = count["count(*)"] > 0?count["count(*)"]:0 + "";
