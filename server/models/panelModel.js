@@ -180,6 +180,7 @@ removeStudent: function(req, res)
     },
     confirmed_code: function(req, res, data){
     let query1 = "SELECT id FROM students WHERE email = " + addQuotes(req.query.email);
+    var result1;
     try
     {
         connection.query(query1, function(err, result1){
@@ -187,10 +188,12 @@ removeStudent: function(req, res)
             console.log(err, result1, "result1");
             let query2;
             let insert = true;
-            if(result1.length === 0 && err === null)
+
+
+            if(result1[0] === undefined)
             {
+                console.log(result1[0], "result at 2");
                 query2 = insertQuery("students", {first_name: data.first_name, last_name: data.last_name, email: data.email, phone: data.phone});
-                console.log(result1[0].insertId, "insert");
             }
             else if(err === null)
             {
@@ -205,10 +208,10 @@ removeStudent: function(req, res)
 
             connection.query(query2, function(err, result2){
 
-                let insertData = {class_instance_id: data.class_instance_id, student_id: (insert)?result1[0].insertId:result1[0].id, register_date: "now()"};
+                let insertData = {class_instance_id: data.class_instance_id, student_id: result1[0].id, register_date: "now()"};
                 let query3 = `INSERT INTO classes_has_students (class_instance_id, student_id, register_date) VALUES(${insertData.class_instance_id}, ${insertData.student_id}, ${insertData.register_date})`;
 
-                console.log(err, result2, "result2");
+                console.log(err, result1[0].id, "result2");
                 console.log(query3);
                 connection.query(query3, function(err, result3){
                     console.log(err, result3, "888");
