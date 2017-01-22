@@ -1,0 +1,53 @@
+#signUpPopUp{
+	width: 50vw !important;
+	height: 70vh !important;
+	position: fixed !important;
+	top: 20vh !important;
+	left: 30vw !important;
+	background-color: #222222 !important;
+	box-shadow: 0px 0px 2px 2px #ffffff !important;
+	overflow: hidden !important;
+}
+.signUpH2{
+	color: #eeeeee !important;
+	text-align: center !important;
+}
+.signUpH3{
+	color: #eeeeee !important;
+	text-align: center !important;
+}
+#xBtn{
+	position: absolute !important;
+	top: 2% !important;
+	left: 95% !important;
+	color: #ffffff !important;
+	font-size:150% !important;
+	width: 4% !important;
+	height: 5% !important;
+}
+#xBtn:hover{
+	background-color: #444444;
+	border-radius: 50px;
+}
+#signUpForm{
+	margin: 10% !important;
+	height: 50% !important;
+}
+#signUpForm label{
+	display: inline-block !important;
+	color: #eeeeee !important;
+	font-size: 100% !important;
+}
+#signUpForm .signUpFormTextInput{
+	display: inline-block !important;
+	width: 50% !important;
+	margin-left: 1% !important;
+}
+.signUpFormDiv{
+	display: inline-block !important;
+	width: 49% !important;
+}
+#signUpSubBtn{
+	margin-left: 40% !important;
+	width: 20% !important;
+}

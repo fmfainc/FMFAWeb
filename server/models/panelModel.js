@@ -1,4 +1,3 @@
-let mysql = require('mysql');
 let bcrypt = require("bcryptjs");
 let crypto = require("crypto");
 let adminSessionIDs = require("../adminLoginIDs.js");
@@ -7,7 +6,7 @@ let connection = require("../config/mysql.js");
 module.exports = {
     getCalendarData: function(req, res){
         let columns = "class_descriptions.class_name, class_descriptions.class_description, categories.category_name, categories.category_description, class_instances.id as class_instance_id, class_instances.class_descriptions_id, class_instances.min_students, class_instances.max_students, EXTRACT(YEAR FROM start_date) AS date_year, EXTRACT(MONTH FROM start_date) AS date_month, EXTRACT(DAY FROM start_date) AS date_day, EXTRACT(HOUR FROM start_date) AS date_hour, EXTRACT(MINUTE FROM start_date) AS date_minute, locations.location_description, locations.location_name"
-        let query = "select "+ columns +" from class_instances join locations on class_instances.locations_id = locations.id join class_descriptions on class_instances.class_descriptions_id = class_descriptions.id join categories on class_descriptions.categories_id = categories.id";
+        let query = `select ${columns} from class_instances join locations on class_instances.locations_id = locations.id join class_descriptions on class_instances.class_descriptions_id = class_descriptions.id join categories on class_descriptions.categories_id = categories.id`;
         
         try
         {
@@ -186,7 +185,6 @@ removeStudent: function(req, res)
                 if(result1.length === 0 && err === null)
                 {
                     query2 = insertQuery("students", {first_name: data.first_name, last_name: data.last_name, email: data.email, phone: data.phone});
-                    console.log(result2.insertId, "insert");
                 }
                 else if(err === null)
                 {
@@ -736,12 +734,12 @@ function insertQuery(tableName, queryobj)
 function queryException(exception, query)
 {
     console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-	console.log("Database error:", exception);
+    console.log("Database error:", exception);
     console.log("-----");
     console.log("-----");
 	console.log("Query involved:", query);
     console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-    res.status(500).send("DB error:", exception);
+    res.status(500).send("DB error");
 };
 
 function getObjValues(obj)
