@@ -4,7 +4,12 @@
 	<img src="http://www.fmfa.com/menu_head_graphics_id/emfile/1/Pastable_logo.png">
 
 	<h4>Thank you for signing up for ${class_name} at ${class_start}
-	<p><a href="http://localhost:5000/confirm_seating${email_code}">To confirm your seating , please click here to confirm your registration</a></p></h4>
+	<p><a href="http://localhost:5000/confirm_seating${email_code + '&confirm=true'}">To confirm your seating , please click here to confirm your registration</a></p></h4>
+
+
+
+	<h4>
+	<p><a href="http://localhost:5000/confirm_seating${email_code + '&confirm=false'}">If you would like to cancel after you have registered, please click here</a></p></h4>
 
 	
 </body>

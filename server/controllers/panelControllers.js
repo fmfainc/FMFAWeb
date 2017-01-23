@@ -31,7 +31,7 @@ var exps = {
 	signUp: function(req, res){
 		
 		var pattern = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-
+		// var confirmORcancel= true;
 		//validations
 		var validationErrors = [];
 		var valid = true;
@@ -55,6 +55,7 @@ var exps = {
 		if(valid === true){
 		let email_crypto = crypto.randomBytes(48).toString("hex");
 		
+
 		exps.email_codes[req.body.email] = {signUpData: {
 				email: req.body.email,
 				first_name: req.body.first_name,
@@ -95,8 +96,15 @@ var exps = {
 	confirmSeating: function(req, res){
 		console.log(req.query, "@@@");
 		if(req.query.code == exps.email_codes[req.query.email].signUpData.code){
+			if (req.query.confirm === 'true'){
+			console.log(req.query.confirm, "if its true in the query");
 			panelModel.confirmed_code(req, res, exps.email_codes[req.query.email].signUpData);
-			console.log("success");
+			console.log("here is the true")
+			}
+			else{
+			console.log(req.query.confirm, "if its false in the query");
+			panelModel.cancel_reg(req, res, exps.email_codes[req.query.email].signUpData);
+			}
 		}
 		res.redirect("/calendar");
 		//make new pages

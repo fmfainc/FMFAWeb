@@ -173,8 +173,27 @@ removeStudent: function(req, res)
             res.json([]);
         }
     },
+        
+    cancel_reg: function(req, res, data){
+        var subQuery =  "(SELECT id FROM students WHERE email='"+ data.email +"' LIMIT 1)";
+        console.log(subQuery);
+        let query = "DELETE FROM classes_has_students WHERE student_id = " + subQuery;
+        try
+        {
+            connection.query(query, function(err, result){
+            console.log(query);
+            });
+        }
+        catch (e)
+        {
+            queryException(e, query);
+        }
+    },
+
     confirmed_code: function(req, res, data){
         let query1 = "SELECT id FROM students WHERE email = " + addQuotes(req.query.email);
+
+        console.log(res, "res from confirmed_code in the model");
         try
         {
             connection.query(query1, function(err, result1){

@@ -18,7 +18,8 @@
                 <th>Location</th>
                 <th>Students</th>
                 <th>Waitlist</th>
-                <th>Sign up</th>
+                <th>Sign Up</th>
+                <th>Sign Up For Waitlist </th>
               </tr>
            </thead>
            <br>
@@ -30,6 +31,7 @@
             <td ng-bind="class.seats"></td>
             <td ng-bind="class.waitlist"></td>
             <td><a id="signUpButton_{{$index}}" ng-click="signUp($index)" class="button_signup_1">sign-up</a></td>
+            <td><a id="signUpButton_{{$index}}" ng-click="signUp($index)" class="button_signup_1">sign-up waitlist</a></td>
           </tr>
         </table>
       </div>
