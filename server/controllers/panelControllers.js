@@ -71,50 +71,80 @@ var exps = {
 		let email_crypto = crypto.randomBytes(48).toString("hex");
 		
 
-		exps.email_codes[req.body.email] = {signUpData: {
-				email: req.body.email,
-				first_name: req.body.first_name,
-				last_name: req.body.last_name,
-				phone: req.body.phone,
-				class_instance_id: req.body.class_instance_id,
-				code: email_crypto
-			}
-		};
+			exps.email_codes[req.body.email] = {signUpData: {
+					email: req.body.email,
+					first_name: req.body.first_name,
+					last_name: req.body.last_name,
+					phone: req.body.phone,
+					class_instance_id: req.body.class_instance_id,
+					code: email_crypto
+				}
+			};
 
-		req.body.email_code = 
-		"?email=" + req.body.email
-		+ "&code=" + email_crypto;
-		
-		var content = safeEval("`" + fs.readFileSync(__dirname + "/email_content.html", "utf8") + "`", req.body);
-		// console.log(content);
-		var mailOptions = {
-		    from: '"FMFA Class Registration" <noreply.fmfa@gmail.com>', // sender address
-		    to: req.body.email, // list of receivers
-		    subject: "FMFA Class Registration", // Subject line
-		    text: '', // plaintext body
-		    html: content// html body
-		};
-		nodemailer.sendMail(mailOptions, function(error, info){
-		    if(error){
-		        return console.log(error);
-		    }
-		    console.log('Message sent: ' + info.response);
-			});
-		}
-		else
-		{
-			console.log(validationErrors);
-		}
-		res.json(validationErrors);
+			panelModel.getOneClassStudentCount(req, res, false, function(err, count){
+				panelModel.getClassMaxStudent(req, res, function(err, max){
+					var whichEmail;
+					console.log(count[0]["count(*)"], max[0].max_students, "from controllers");
+					if((count[0]["count(*)"]) >= max[0].max_students){
+						console.log("class is full");
+						whichEmail = "/email_content2.html";
+
+					}
+					else{
+						console.log("class is available");
+						whichEmail = "/email_content.html"
+					}
+
+
+				req.body.email_code = 
+				"?email=" + req.body.email
+				+ "&code=" + email_crypto;
+				
+				var content = safeEval("`" + fs.readFileSync(__dirname + whichEmail, "utf8") + "`", req.body);
+				// console.log(content);
+				var mailOptions = {
+				    from: '"FMFA Class Registration" <noreply.fmfa@gmail.com>', // sender address
+				    to: req.body.email, // list of receivers
+				    subject: "FMFA Class Registration", // Subject line
+				    text: '', // plaintext body
+				    html: content// html body
+				};
+				nodemailer.sendMail(mailOptions, function(error, info){
+				    if(error){
+				        return console.log(error);
+				    }
+				    console.log('Message sent: ' + info.response);
+					});
+					})
+				})
+			}
+
+
+			else
+			{
+				console.log(validationErrors);
+			}
+			res.json(validationErrors);
 	},
 
 	confirmSeating: function(req, res){
 		if(req.query.code == exps.email_codes[req.query.email].signUpData.code){
 			if (req.query.confirm === 'true'){
-				panelModel.confirmedCode(req, res, exps.email_codes[req.query.email].signUpData, function(err, result){
-					//waitlist logic
-					res.redirect("/calendar");
-					//make new pages
+				var email_data = {body: exps.email_codes[req.query.email].signUpData};
+				panelModel.getOneClassStudentCount(email_data, res, false, function(err, count){
+				panelModel.getClassMaxStudent(email_data, res, function(err, max){
+					if((count[0]["count(*)"]) >= max[0].max_students){
+						exps.email_codes[req.query.email].signUpData.waitlisted = true;
+					}
+					else{
+						exps.email_codes[req.query.email].signUpData.waitlisted = false;
+					}
+					panelModel.confirmedCode(req, res, exps.email_codes[req.query.email].signUpData, function(err, result){
+						//waitlist logic
+						res.redirect("/calendar");
+						//make new pages
+					})
+				})
 				});
 			}
 			else{

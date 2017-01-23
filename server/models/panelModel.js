@@ -11,8 +11,15 @@ module.exports = {
         connection.query(query, callback);
     },
 
-    getClassStudentCount: function(req, res, waitlisted, callback){
+    getOneClassStudentCount: function(req, res, waitlisted, callback){
+        console.log(req.body, "getOneClassStudentCount from model")
+        let wl = (waitlisted === true)?"true":"not true";
+        let query = `SELECT count(*) FROM  classes_has_students WHERE classes_has_students.waitlisted is ${wl} AND classes_has_students.class_instance_id = ${req.body.class_instance_id}`;
+        
+        connection.query(query, callback);
+    },
 
+    getClassStudentCount: function(req, res, waitlisted, callback){
         let wl = (waitlisted === true)?"true":"not true";
         let query = `SELECT count(*), classes_has_students.class_instance_id, class_descriptions.class_name from classes_has_students join class_instances on classes_has_students.class_instance_id = class_instances.id join class_descriptions on class_instances.class_descriptions_id = class_descriptions.id WHERE classes_has_students.waitlisted is ${wl} GROUP BY class_instance_id`;
         
@@ -60,6 +67,7 @@ module.exports = {
         connection.query(query1, function(err, result1){
             let query2;
             let insert = true;
+            let waitlisted = data.waitlisted;
             if(result1.length === 0 && err === null){
                 query2 = insertQuery("students", {first_name: data.first_name, last_name: data.last_name, email: data.email, phone: data.phone});
             }
@@ -75,8 +83,7 @@ module.exports = {
                     register_date: "now()"
                 };
 
-                let query3 = `INSERT INTO classes_has_students (class_instance_id, student_id, register_date) VALUES(${insertData.class_instance_id}, ${insertData.student_id}, ${insertData.register_date})`;
-                
+                let query3 = `INSERT INTO classes_has_students (class_instance_id, student_id, waitlisted, register_date) VALUES(${insertData.class_instance_id}, ${insertData.student_id}, ${waitlisted}, ${insertData.register_date})`;
                 connection.query(query3, callback);
             });
         });
@@ -223,6 +230,12 @@ module.exports = {
         let query = "SELECT class_instances.id as Class_Instances_ID, class_instances.start_date, class_instances.end_date, class_instances.max_students, class_instances.min_students, class_descriptions.class_name,locations.location_name FROM class_instances INNER JOIN class_descriptions ON class_descriptions.id = class_instances.class_descriptions_id INNER JOIN locations ON class_instances.locations_id = locations.id";
         connection.query(query, callback);
     },
+    getClassMaxStudent: function(req, res, callback){
+        console.log(req.body, "req from getOneClassInstance");
+        let query = "SELECT max_students FROM class_instances WHERE id = " + req.body.class_instance_id;
+        connection.query(query, callback);
+    },
+
 
 	getLocations: function(req, res, callback){
         connection.query("SELECT * FROM locations", callback);
