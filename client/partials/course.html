@@ -8,30 +8,35 @@
 <body>
 <div ng-controller="CalendarController">
 <fieldset>
+<style>
+  .calRowHeight{
+    height: 8vh;
+  }
+  .calTh{
+    font-size: 150%;
+    font-weight: bolder;
+  }
+</style>
 <div style="overflow-x:auto;">
-   <table class="calendar_table">
-           <thead>
+   <table style="text-align: center;">
+           <thead class="calTh">
               <tr>
-                <th>Date</th>
-                <th>Class</th>
-                <th>Category</th>
-                <th>Location</th>
-                <th>Students</th>
-                <th>Waitlist</th>
-                <th>Sign Up</th>
-                <th>Sign Up For Waitlist </th>
+                <th style="text-align: center;">Date</th>
+                <th style="text-align: center;">Class</th>
+                <th style="text-align: center;">Category</th>
+                <th style="text-align: center;">Location</th>
+                <th style="text-align: center;">Students</th>
+                <th style="text-align: center;">Sign Up</th>
               </tr>
            </thead>
            <br>
           <tr ng-repeat="class in calendarData">
-            <td>{{class.date_month}}/{{class.date_day}}/{{class.date_year}} - {{class.date_hour}}:{{class.date_minute}} {{class.am_pm}}</td>
-            <td ng-bind="class.class_name"></td>
-            <td ng-bind="class.category_name"></td>
-            <td ng-bind="class.location_name"></td>
-            <td ng-bind="class.seats"></td>
-            <td ng-bind="class.waitlist"></td>
-            <td><a id="signUpButton_{{$index}}" ng-click="signUp($index)" class="button_signup_1">sign-up</a></td>
-            <td><a id="signUpButton_{{$index}}" ng-click="signUp($index)" class="button_signup_1">sign-up waitlist</a></td>
+            <td class="calRowHeight">{{class.date_month}}/{{class.date_day}}/{{class.date_year}} - {{class.date_hour}}:{{class.date_minute}} {{class.am_pm}}</td>
+            <td class="calRowHeight" ng-bind="class.class_name"></td>
+            <td class="calRowHeight" ng-bind="class.category_name"></td>
+            <td class="calRowHeight" ng-bind="class.location_name"></td>
+            <td class="calRowHeight" ng-bind="class.seats"></td>
+            <td class="calRowHeight" ><a ng-bind="class.signUpButtonText" id="signUpButton_{{$index}}" ng-click="signUp($index)" class="button_signup_1"></a><p style="font-style: italic; font-size: 100%;" ng-bind="class.waitlist"></p></td>
           </tr>
         </table>
       </div>

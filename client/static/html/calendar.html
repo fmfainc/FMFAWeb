@@ -13,7 +13,8 @@
         <link rel="icon" href="static/img/Logo/FMFA_icon.ico"/>
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
     	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.min.js"></script>
-       	<link rel="stylesheet" href="./static/css/app.css">
+        <link rel="stylesheet" href="./static/css/app.css">
+        <link rel="stylesheet" href="./static/css/signup.css">
       	<script src="assets/config/calendar.js"></script>
     </head>
 
@@ -132,35 +133,35 @@
                 <script src="static/vendor/foundation.js"></script>
                 <script src="static/app.js"></script>
 
-                <div id="signUpPopUp" style="visibility: hidden; width: 40vw; height: 70vh; position: fixed; top: 20vh; left: 30vw; background-color: #222222; box-shadow: 0px 0px 2px 2px #ffffff; overflow: hidden;">
-                	<h2 style="color: #eeeeee; text-align: center;">Sign Up<h2>
-                	<h2 id="popUpClassName" style="color: #eeeeee; text-align: center;"><h2>
-                	<h3 id="popUpClassTime" style="color: #eeeeee; text-align: center;"></h3>
-                	<button id="x" onmouseup="close_popup()" style="position: absolute; top: 2%; left: 95%; color: #ffffff; font-size:150%;">x</button>
-                	<form name="popUpForm" onsubmit="event.preventDefault(); popUpSubmit();" action="/sign_up" method="post" style="margin: 10%; height: 50%;">
-
-	                	<div style="display: inline-block; width: 50%;" >
+                <div id="signUpPopUp" style="visibility: hidden;">
+                	<h2>Sign Up<h2>
+                	<h2 id="popUpClassName"><h2>
+                	<h3 id="popUpClassTime"></h3>
+                	<button id="xBtn" onmouseup="close_popup()">x</button>
+                    <p id="signedUpText">Thanks for signing up. Please check your email for confirmation link.</p>
+                	<form id="signUpForm" name="popUpForm" onsubmit="event.preventDefault(); popUpSubmit();" action="/sign_up" method="post" style="margin: 10%; height: 50%;">
+	                	<div class="signUpFormDiv">
 		                <div>
-		                	<label style="display: inline-block; color: #eeeeee; font-size: 100%;">First Name:</label>
-		                	<input style="display: inline-block; width: 20%; margin-left: 1%;" type="text" name="first_name">
+		                	<label>First Name:</label>
+		                	<input class="signUpFormTextInput" type="text" name="first_name">
 	                	</div>
 		                	<div>
-		                	<label style="display: inline-block; color: #eeeeee; font-size: 100%;">Last Name:</label>
-		                	<input style="display: inline-block; width: 20%; margin-left: 1%;" type="text" name="last_name">
+		                	<label>Last Name:</label>
+		                	<input class="signUpFormTextInput" type="text" name="last_name">
 	                	</div>
 	                	</div>
-	                	<div style="display: inline-block; width: 45%;">
+	                	<div class="signUpFormDiv">
 	                	<div>
-		                	<label style="display: inline-block; color: #eeeeee; font-size: 100%;">Email Address:</label>
-		                	<input style="display: inline-block; width: 20%; margin-left: 1%;" type="text" name="email">
+		                	<label>Email Address:</label>
+		                	<input class="signUpFormTextInput" type="text" name="email">
 		                </div>
 		                <div>
-		                	<label style="display: inline-block; color: #eeeeee; font-size: 100%;">Phone Number:</label>
-		                	<input style="display: inline-block; width: 20%; margin-left: 1%;" type="text" name="phone">
+		                	<label>Phone Number:</label>
+		                	<input class="signUpFormTextInput" type="text" name="phone">
 	                	</div>
 	                	</div>
 	                	<br>
-	                	<input class="button" style="margin-left: 40%; width: 20%;" type="submit" name="submit">
+	                	<input id="signUpSubBtn" class="button" type="submit" name="submit">
                 	</form>
                 </div>
 

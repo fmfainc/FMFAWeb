@@ -9,6 +9,8 @@ function popUpSubmit()
         class_start : global_class_start,
         class_instance_id: global_class_instance_id
       };
+      document.getElementById("signUpForm").style.display = "none";
+      document.getElementById("signedUpText").style.display = "block";
   globalScopeRef.formSubmit(data);
 }
 
@@ -88,6 +90,12 @@ app.factory("calendarFactory",["$http", function($http){
             {
               console.log("this one", instance);
               instance.seats = count["count(*)"] + "/" + instance.max_students;
+              console.log(count["count(*)"], instance.max_students);
+              if(count["count(*)"] < instance.max_students){
+                instance.signUpButtonText = "sign-up";
+              }else{
+                instance.signUpButtonText = "join waitlist";
+              }
             }
           }
         }
@@ -100,12 +108,9 @@ app.factory("calendarFactory",["$http", function($http){
           console.log(count);
           for(let instance of factory.scopeRef.calendarData)
           {
-
-          if(!instance.waitlist){
-            instance.waitlist = 0;}
             if(instance.class_instance_id === count.class_instance_id){
               console.log("this one", instance);
-              instance.waitlist = count["count(*)"] > 0?count["count(*)"]:0 + "";
+              instance.waitlist = (count["count(*)"] > 0)?(count["count(*)"] + " student(s) on waitlist"):undefined;
             }
           }
         }
@@ -135,6 +140,9 @@ app.controller("CalendarController",['$scope', 'calendarFactory', function($scop
       className.innerText = $scope.calendarData[index].class_name;
       classTime.innerText = $scope.calendarData[index].date_month + "/" + $scope.calendarData[index].date_day + "/" + $scope.calendarData[index].date_year + "-" + $scope.calendarData[index].date_hour + ":" + $scope.calendarData[index].date_minute + " " + $scope.calendarData[index].am_pm;
       popUp.style.visibility = "visible";
+      document.getElementById("signUpForm").style.display = "block";
+      document.getElementById("signedUpText").style.display = "none";
+
       console.log(index);
       console.log(document.getElementById("signUpPopUp"));
       global_class_name = $scope.calendarData[index].class_name;

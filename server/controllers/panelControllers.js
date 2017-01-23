@@ -5,6 +5,7 @@ let fs = require("fs");
 let safeEval = require('safe-eval');
 let crypto = require("crypto");
 let bcrypt = require("bcryptjs");
+let os = require("os");
 
 var exps = {
 	email_codes : {},
@@ -99,6 +100,8 @@ var exps = {
 				req.body.email_code = 
 				"?email=" + req.body.email
 				+ "&code=" + email_crypto;
+
+				req.body.domain = "localhost:5000";
 				
 				var content = safeEval("`" + fs.readFileSync(__dirname + whichEmail, "utf8") + "`", req.body);
 				// console.log(content);

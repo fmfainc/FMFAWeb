@@ -25,6 +25,9 @@ app.use(session({
 
 require('./server/config/routes.js')(app);
 
+var os = require('os');
+var ifaces = os.networkInterfaces();
+
 let server = app.listen(port, function()
 {
 	console.log("listening on port", port);
