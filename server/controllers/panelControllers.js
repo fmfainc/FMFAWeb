@@ -4,9 +4,11 @@ let nodemailer = require("../config/emailer.js");
 let fs = require("fs");
 let safeEval = require('safe-eval');
 let crypto = require("crypto");
+let bcrypt = require("bcryptjs");
 
 var exps = {
 	email_codes : {},
+
 	adminpanel: function(req, res){
 		if(adminSessionIDs[req.sessionID] === true)
 			res.sendFile("adminpanel.html", {root: "./"});
@@ -25,7 +27,20 @@ var exps = {
 	adminloginPost: function(req, res){
 		//admin login
 		//username: admin, password: fmf4__dev
-		panelModel.validateLogin(req, res);
+		panelModel.validateLogin(req, res, function(err, rows, fields){
+			if(err || rows[0] === undefined){
+                console.log(err);
+                res.redirect("/adminpanel");
+            }
+            else if(bcrypt.compareSync(req.body.password, rows[0].password)){
+                req.session.name = rows[0].username;
+                adminSessionIDs[req.sessionID] = true;
+                res.redirect("/adminpanel");
+            }
+            else{
+				res.sendFile("/static/html/adminlogin_wrong.html", {root: "client"});
+			}
+		});
 	},
 
 	signUp: function(req, res){
@@ -71,7 +86,7 @@ var exps = {
 		+ "&code=" + email_crypto;
 		
 		var content = safeEval("`" + fs.readFileSync(__dirname + "/email_content.html", "utf8") + "`", req.body);
-		console.log(content);
+		// console.log(content);
 		var mailOptions = {
 		    from: '"FMFA Class Registration" <noreply.fmfa@gmail.com>', // sender address
 		    to: req.body.email, // list of receivers
@@ -94,103 +109,222 @@ var exps = {
 	},
 
 	confirmSeating: function(req, res){
-		console.log(req.query, "@@@");
 		if(req.query.code == exps.email_codes[req.query.email].signUpData.code){
 			if (req.query.confirm === 'true'){
-			console.log(req.query.confirm, "if its true in the query");
-			panelModel.confirmed_code(req, res, exps.email_codes[req.query.email].signUpData);
-			console.log("here is the true")
+				panelModel.confirmedCode(req, res, exps.email_codes[req.query.email].signUpData, function(err, result){
+					//waitlist logic
+					res.redirect("/calendar");
+					//make new pages
+				});
 			}
 			else{
-			console.log(req.query.confirm, "if its false in the query");
-			panelModel.cancel_reg(req, res, exps.email_codes[req.query.email].signUpData);
+				panelModel.cancelReg(req, res, exps.email_codes[req.query.email].signUpData, function(err, result){
+					//nothing for now, but probably put a redirect here
+					res.redirect("/calendar");
+					//make new pages
+				});
 			}
 		}
-		res.redirect("/calendar");
-		//make new pages
 	},
 
 	getCalendarData: function(req, res){
-		panelModel.getCalendarData(req, res);
+		panelModel.getCalendarData(req, res, function(err, rows, fields){
+			tryJsonResponse(res, rows, err);
+		});
 	},
 
 	getStudentsForClass: function(req, res){
-		if(adminSessionIDs[req.sessionID] === true)
-			panelModel.getStudentsForClass(req, res);
-		else
+		if(adminSessionIDs[req.sessionID] === true){
+			panelModel.getStudentsForClass(req, res, function(err, rows, fields){
+				tryJsonResponse(res, rows, err);
+			});
+		}
+		else{
 			res.status(401).send("plz login");
+		}
 	},
 
 	getClassStudentCount: function(req, res, waitlisted){
-		panelModel.getClassStudentCount(req, res, waitlisted);
+		panelModel.getClassStudentCount(req, res, waitlisted, function(err, rows, fields){
+			tryJsonResponse(res, rows, err);
+        });
 	},
 
 	addCategory: function(req, res){
-		panelModel.addCategory(req, res);
-	},
-	deleteClassDescription: function(req, res){
-		panelModel.deleteClassDescription(req, res);
-	},
-	remove_student : function(req, res){
-		panelModel.removeStudent(req, res);
-	},
-	deleteStudent: function(req, res){
-		panelModel.deleteStudent(req, res);
+		panelModel.addCategory(req, res, function(err, result){
+			tryJsonResponse(res, result, err);
+		});
 	},
 
-	delete_scheduled_class: function(req, res){
-		panelModel.deleteScheduledClass(req,res);
+	deleteClassDescription: function(req, res){
+		panelModel.deleteClassDescription(req, res, function(err, result){
+			tryJsonResponse(res, result, err);
+		});
 	},
+
+	removeStudent : function(req, res){
+		panelModel.removeStudent(req, res, function(err, result){
+			tryJsonResponse(res, result, err);
+		});
+	},
+
+	deleteStudent: function(req, res){
+		panelModel.deleteStudent(req, res, function(err, result){
+			tryJsonResponse(res, result, err);
+		});
+	},
+
+	deleteScheduledClass: function(req, res){
+		panelModel.deleteScheduledClass(req,res, function(err, result){
+			tryJsonResponse(res, result, err);
+		});
+	},
+
 	deleteCategory: function(req, res){
-		panelModel.deleteCategory(req, res);
+		panelModel.deleteCategory(req, res, function(err, result){
+			tryJsonResponse(res, result, err);
+		});
 	},
+
 	deleteLocation: function(req, res){
-		panelModel.deleteLocation(req, res);
+		panelModel.deleteLocation(req, res, function(err, result){
+			tryJsonResponse(res, result, err);
+		});
 	},
 
 	updateCategory: function(req, res){
-		panelModel.updateCategory(req, res);
+		panelModel.updateCategory(req, res, function(err, result){
+			tryJsonResponse(res, result, err);
+		});
 	},
 
 	updateScheduledClass: function(req, res){
-		console.log("edit scheulded class BE controller")
-		panelModel.updateScheduledClass(req, res);
+		panelModel.updateScheduledClass(req, res, function(err, result){
+			tryJsonResponse(res, result, err);
+		});
 	},
+
 	updateLocation: function(req, res){
-		panelModel.updateLocation(req, res);
+		panelModel.updateLocation(req, res, function(err, result){
+			tryJsonResponse(res, result, err);
+		});
 	},
+
 	updateClassDescription: function(req, res){
-		panelModel.updateClassDescription(req, res);
+		panelModel.updateClassDescription(req, res, function(err, result){
+			tryJsonResponse(res, result, err);
+		});
 	},
+
 	getCategories: function(req, res){
-		panelModel.getCategories(req, res);
+		panelModel.getCategories(req, res, function(err, rows, fields){
+			tryJsonResponse(res, rows, err);
+		});
 	},
+
 	updateStudent: function(req, res){
-		panelModel.updateStudent(req, res);
+		panelModel.updateStudent(req, res, function(err, rows, fields){
+			tryJsonResponse(res, rows, err);
+		});
 	},
+
 	getOneStudent: function(req, res){
-		console.log(req, "from BE controllers" );
-		panelModel.getOneStudent(req, res);
+		panelModel.getOneStudent(req, res, function(err, rows, fields){
+			tryJsonResponse(res, rows, err);
+		});
 	},
+
 	getClassInstances: function(req, res){
-		panelModel.getClassInstances(req, res);
+		panelModel.getClassInstances(req, res, function(err, rows, fields){
+	        if(err){
+	            res.json(err);
+	        }
+	        else{
+	            for(let item of rows)
+	            {
+	                for(let key in item)
+	                {
+	                    if(key === "start_date" || key === "end_date")
+	                    {
+	                        item[key] = item[key].toString();
+	                        if(key == "start_date"){
+	                            item["start_time"] = item[key].slice(15, 21);
+	                                let hour = parseInt(item["start_time"].slice(0, 3));
+	                                if(hour >= 12){
+	                                    item["start_time"] += " pm";
+	                                    hour %= 12;
+	                                    if(hour == 0){
+	                                        hour = 12;
+	                                    }
+	                                    item["start_time"] = hour + item["start_time"].slice(3);
+	                                }
+	                                else{
+	                                    item["start_time"] += " am"
+	                                }
+	                            item[key] = item[key].slice(0, 15);
+	                        }
+	                        else{
+	                            item[key] = item[key].slice(15, 21);
+	                            let hour = parseInt(item[key].slice(0, 3));
+                                if(hour >= 12){
+                                    item[key] += " pm";
+                                    hour %= 12;
+                                    if(hour == 0){
+                                        hour = 12;
+                                    }
+                                    item[key] = hour + item[key].slice(3);
+                                }
+                                else
+                                {
+                                    item[key] += " am"
+                                }
+                            }
+	                    }
+	                }
+	            }
+	        }
+	        res.json(rows);
+	    });
 	},
+
 	getLocations: function(req, res){
-		panelModel.getLocations(req, res);
+		panelModel.getLocations(req, res, function(err, result){
+			tryJsonResponse(res, result, err);
+		});
 	},
+
 	addLocation: function(req, res){
-		panelModel.addLocation(req, res);
+		panelModel.addLocation(req, res, function(err, result){
+			tryJsonResponse(res, result, err);
+		});
 	},
 
 	addDescriptions: function(req, res){
-		panelModel.addDescriptions(req, res);
+		panelModel.addDescriptions(req, res, function(err, result){
+			tryJsonResponse(res, result, err);
+		});
 	},
 
 	getClassDescriptions: function(req, res){
-		panelModel.getClassDescriptions(req, res);
+		panelModel.getClassDescriptions(req, res, function(err, result){
+			tryJsonResponse(res, result, err);
+		});
 	},
+
 	scheduleClass: function(req, res){
-		panelModel.scheduleClass(req, res);
+		panelModel.scheduleClass(req, res, function(err, result){
+			tryJsonResponse(res, result, err);
+		});
+	}
+}
+
+function tryJsonResponse(res, result, err){
+	console.log(result, err);
+	if(err){
+		res.json(err);
+	}
+	else{
+	    res.json(result);
 	}
 }
 

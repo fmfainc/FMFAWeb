@@ -69,8 +69,7 @@ function tryDestroy(connection){
 		console.log("fatal mysql error. destroying connection.")
 		connection.destroy();
 	}
-	catch(e)
-	{
+	catch(e){
 		console.log("exception while trying to destroy a connection.", e);
 	}
 }
