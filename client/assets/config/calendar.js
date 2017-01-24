@@ -79,27 +79,28 @@ app.factory("calendarFactory",["$http", function($http){
       $http.get("/get_class_student_count").then(function(res){
         let studentCounts = res.data;
         console.log(studentCounts);
-        for(let count of studentCounts)
-        {
-          console.log(count, "count");
           for(let instance of factory.scopeRef.calendarData)
           {
             if(!instance.seats){
               console.log(instance.max_students, "max students for " + instance.class_name);
-              instance.seats = 0 + "/" + instance.max_students;}
-            if(instance.class_instance_id === count.class_instance_id)
+              instance.seats = 0 + "/" + instance.max_students;
+              instance.signUpButtonText = "sign-up";
+            }
+
+            for(let count of studentCounts)
             {
-              console.log("this one", instance);
-              instance.seats = count["count(*)"] + "/" + instance.max_students;
-              console.log(count["count(*)"], instance.max_students);
-              if(count["count(*)"] < instance.max_students){
-                instance.signUpButtonText = "sign-up";
-              }else{
-                instance.signUpButtonText = "join waitlist";
+              console.log(count, "count");
+              if(instance.class_instance_id === count.class_instance_id)
+              {
+                console.log("this one", instance);
+                instance.seats = count["count(*)"] + "/" + instance.max_students;
+                console.log(count["count(*)"], instance.max_students);
+                if(count["count(*)"] >= instance.max_students){
+                  instance.signUpButtonText = "join waitlist";
+                }
               }
             }
           }
-        }
       });
 
       $http.get("/get_class_waitlist_count").then(function(res){
