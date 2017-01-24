@@ -75,7 +75,6 @@ app.controller("panelController", ["$scope", "$routeParams", "$http", "panelFact
         $scope.scheduleClass = function(){
             var data = ({class_descriptions_id: $scope.class_description_id, locations_id: $scope.pick_location_id, start_date: $scope.date, start_time: $scope.start_time, end_time: $scope.end_time, max_students: $scope.max_students, min_students: $scope.min_students});
             panelFactory.scheduleClass(data);
-            console.log(scheduled_classes);
         };
 
         $scope.init = true;
