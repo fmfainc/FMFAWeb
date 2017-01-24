@@ -74,8 +74,4 @@ function tryDestroy(connection){
 	}
 }
 
-exps.query("set global sql_mode = ''", function(err, result){
-	// console.log(err, result);
-});
-
 module.exports = exps;

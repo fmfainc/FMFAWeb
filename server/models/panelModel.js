@@ -14,14 +14,14 @@ module.exports = {
     getOneClassStudentCount: function(req, res, waitlisted, callback){
         console.log(req.body, "getOneClassStudentCount from model")
         let wl = (waitlisted === true)?"true":"not true";
-        let query = `SELECT count(*) FROM  classes_has_students WHERE classes_has_students.waitlisted is ${wl} AND classes_has_students.class_instance_id = ${req.body.class_instance_id}`;
+        let query = `SELECT count(*) FROM classes_has_students WHERE classes_has_students.waitlisted is ${wl} AND classes_has_students.class_instance_id = ${req.body.class_instance_id}`;
         
         connection.query(query, callback);
     },
 
     getClassStudentCount: function(req, res, waitlisted, callback){
         let wl = (waitlisted === true)?"true":"not true";
-        let query = `SELECT count(*), classes_has_students.class_instance_id, class_descriptions.class_name from classes_has_students join class_instances on classes_has_students.class_instance_id = class_instances.id join class_descriptions on class_instances.class_descriptions_id = class_descriptions.id WHERE classes_has_students.waitlisted is ${wl} GROUP BY class_instance_id`;
+        let query = `SELECT count(*), classes_has_students.class_instance_id, class_descriptions.class_name from classes_has_students join class_instances on classes_has_students.class_instance_id = class_instances.id join class_descriptions on class_instances.class_descriptions_id = class_descriptions.id WHERE classes_has_students.waitlisted is ${wl} GROUP BY classes_has_students.class_instance_id`;
         
         connection.query(query, callback);
     },

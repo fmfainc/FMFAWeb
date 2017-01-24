@@ -6,10 +6,10 @@ let staticRoutes = {
 	"/JiraTraining": "JiraTraining.html",
 	"/ScrumTraining": "ScrumTraining.html",
 	"/SVPTITraining": "SVPTITraining.html",
-	"/about": "about.html",
+	"/about": "About.html",
 	"/calendar": "calendar.html",
-	"/contact" : "contact.html",
-	"/blog" : "blog.html"
+	"/contact" : "Contact.html",
+	"/blog" : "Blog.html"
 };
 
 module.exports = function(app){
