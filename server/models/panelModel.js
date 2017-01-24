@@ -21,7 +21,7 @@ module.exports = {
 
     getClassStudentCount: function(req, res, waitlisted, callback){
         let wl = (waitlisted === true)?"true":"not true";
-        let query = `SELECT count(*), classes_has_students.class_instance_id, class_descriptions.class_name from classes_has_students join class_instances on classes_has_students.class_instance_id = class_instances.id join class_descriptions on class_instances.class_descriptions_id = class_descriptions.id WHERE classes_has_students.waitlisted is ${wl} GROUP BY classes_has_students.class_instance_id`;
+        let query = `SELECT count(*), classes_has_students.class_instance_id, class_descriptions.class_name from classes_has_students join class_instances on classes_has_students.class_instance_id = class_instances.id join class_descriptions on class_instances.class_descriptions_id = class_descriptions.id WHERE classes_has_students.waitlisted is ${wl} GROUP BY classes_has_students.class_instance_id, class_descriptions.class_name`;
         
         connection.query(query, callback);
     },
