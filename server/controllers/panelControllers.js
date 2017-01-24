@@ -352,7 +352,7 @@ var exps = {
 }
 
 function tryJsonResponse(res, result, err){
-	console.log(result, err);
+	console.log("DB response:", result, err);
 	if(err){
 		res.json(err);
 	}

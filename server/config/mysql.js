@@ -5,6 +5,15 @@ let stdin = process.openStdin();
 let exps = {
 
 	pool: mysql.createPool({
+		connectionLimit : 100,
+	    port     : 3306,
+	    host     : "localhost",
+	    user     : "root",
+	    password : "root",
+	    database : "mydb"
+	}),
+
+	singleConnection: mysql.createConnection({
 	    port     : 3306,
 	    host     : "localhost",
 	    user     : "root",
@@ -14,26 +23,26 @@ let exps = {
 
 	query: function(qury, callback){
 		try{
-			exps.pool.getConnection(function(err, connection) {
-				if(connection){
-					connection.query(qury, function (error, results, fields) {
+
+			exps.singleConnection.query(qury, function (error, results, fields) {
 					callback(error, results, fields);
-					if(error && error.fatal){
-						tryDestroy(connection);
-					}
-					else if(error){
-						console.log("nonfatal mysql error. releasing connection back to pool.");
-						console.log(error);
-						connection.release();
-					}
-					});
-				}
-				else{
-					if(err && err.fatal){
-						tryDestroy(err);
-					}
-				}
-			});
+				});
+
+			// exps.pool.getConnection(function(err, connection) {
+			// 	if(connection){
+			// 		connection.query(qury, function (error, results, fields) {
+			// 		callback(error, results, fields);
+			// 		if(error && error.fatal){
+			// 			tryDestroy(connection);
+			// 		}
+			// 		else if(error){
+			// 			console.log("nonfatal mysql error. releasing connection back to pool.");
+			// 			console.log(error);
+			// 			connection.release();
+			// 		}
+			// 		});
+			// 	}
+			// });
 		}
 		catch(e)
 		{
