@@ -22,13 +22,13 @@ let exps = {
 						tryDestroy(connection);
 					}
 					else{
-						console.log("nonfatal mysql error. releasing connection back to pool.")
+						console.log("nonfatal mysql error. releasing connection back to pool.");
+						console.log(error);
 						connection.release();
 					}
 					});
 				}
 				else{
-					console.log(err.fatal);
 					if(err && err.fatal){
 						tryDestroy(err);
 					}
