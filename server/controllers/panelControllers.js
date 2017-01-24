@@ -101,7 +101,7 @@ var exps = {
 				"?email=" + req.body.email
 				+ "&code=" + email_crypto;
 
-				req.body.domain = "localhost:5000";
+				req.body.domain = "35.167.102.219";
 				
 				var content = safeEval("`" + fs.readFileSync(__dirname + whichEmail, "utf8") + "`", req.body);
 				// console.log(content);
