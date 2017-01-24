@@ -21,7 +21,7 @@ let exps = {
 					if(error && error.fatal){
 						tryDestroy(connection);
 					}
-					else{
+					else if(error){
 						console.log("nonfatal mysql error. releasing connection back to pool.");
 						console.log(error);
 						connection.release();
