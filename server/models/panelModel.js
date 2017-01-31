@@ -6,7 +6,7 @@ let connection = require("../config/mysql.js");
 module.exports = {
     getCalendarData: function(req, res, callback){
         let columns = "class_descriptions.class_name, class_descriptions.class_description, categories.category_name, categories.category_description, class_instances.id as class_instance_id, class_instances.class_descriptions_id, class_instances.min_students, class_instances.max_students, EXTRACT(YEAR FROM start_date) AS date_year, EXTRACT(MONTH FROM start_date) AS date_month, EXTRACT(DAY FROM start_date) AS date_day, EXTRACT(HOUR FROM start_date) AS date_hour, EXTRACT(MINUTE FROM start_date) AS date_minute, locations.location_description, locations.location_name"
-        let query = `select ${columns} from class_instances join locations on class_instances.locations_id = locations.id join class_descriptions on class_instances.class_descriptions_id = class_descriptions.id join categories on class_descriptions.categories_id = categories.id`;
+        let query = `select ${columns} from class_instances join locations on class_instances.locations_id = locations.id join class_descriptions on class_instances.class_descriptions_id = class_descriptions.id join categories on class_descriptions.categories_id = categories.id WHERE class_instances.start_date > now()`;
         
         connection.query(query, callback);
     },
@@ -22,7 +22,6 @@ module.exports = {
     getClassStudentCount: function(req, res, waitlisted, callback){
         let wl = (waitlisted === true)?"true":"not true";
         let query = `SELECT count(*), classes_has_students.class_instance_id, class_descriptions.class_name from classes_has_students join class_instances on classes_has_students.class_instance_id = class_instances.id join class_descriptions on class_instances.class_descriptions_id = class_descriptions.id WHERE classes_has_students.waitlisted is ${wl} GROUP BY classes_has_students.class_instance_id`;
-        //let query = `SELECT count(*) from classes_has_students join class_instances on classes_has_students.class_instance_id = class_instances.id WHERE classes_has_students.waitlisted is ${wl} GROUP BY classes_has_students.class_instance_id`;
         
         connection.query(query, callback);
     },
